@@ -1,8 +1,9 @@
 import { Link } from 'react-router'
 import { useCurrentUser } from '@/features/auth'
-import { DailyCard } from '@/features/daily'
+import { DailyCard, getDailyStatus } from '@/features/daily'
 import { useUserStats } from '@/features/stats'
 import { ROUTES } from '@/shared/config/routes'
+import { useNow } from '@/shared/hooks/useNow'
 import { Button } from '@/shared/ui/button'
 import { GuaranteeCard } from '../components/GuaranteeCard'
 import { HomeError, HomeSkeleton } from '../components/HomeStatus'
@@ -11,6 +12,7 @@ import { homeTexts as t } from '../texts'
 
 function HomeContent({ discordId }: { discordId: string }) {
   const { data: stats, isPending, isError, refetch } = useUserStats(discordId)
+  const now = useNow()
 
   if (isPending) return <HomeSkeleton />
   if (isError) return <HomeError onRetry={() => void refetch()} />
@@ -20,7 +22,11 @@ function HomeContent({ discordId }: { discordId: string }) {
       <DailyCard stats={stats} />
       <div className="grid gap-4 md:grid-cols-2">
         <StreakCard stats={stats} />
-        <GuaranteeCard pity={stats.pity} />
+        {/* Una sola acción principal: el daily si está disponible; si no, abrir un sobre. */}
+        <GuaranteeCard
+          pity={stats.pity}
+          primaryAction={getDailyStatus(stats, now).kind !== 'available'}
+        />
       </div>
     </div>
   )
@@ -32,9 +38,7 @@ export function HomePage() {
 
   return (
     <section className="flex flex-col gap-6">
-      <h1 className="text-2xl font-medium tracking-[0.2px] md:text-3xl">
-        {t.greeting(user.username)}
-      </h1>
+      <h1 className="text-3xl font-extrabold md:text-4xl">{t.greeting(user.username)}</h1>
       <HomeContent discordId={user.discordId} />
       <Button asChild variant="secondary" className="self-start">
         <Link to={ROUTES.profile}>{t.allStats}</Link>

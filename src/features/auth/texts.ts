@@ -1,11 +1,12 @@
 export const authTexts = {
-  loginWithDiscord: 'Entrar con Discord',
+  loginWithDiscord: 'Continuar con Discord',
   logout: 'Cerrar sesión',
   loggingOut: 'Cerrando sesión…',
   logoutError: 'No se pudo cerrar la sesión. Inténtalo de nuevo.',
-  welcomeTitle: 'Bienvenido a Smilbot',
-  welcomeDescription:
-    'Inicia sesión con tu cuenta de Discord para ver tu perfil, tus cartas y los rankings.',
+  welcomeEyebrow: 'Tu colección de gatitos',
+  welcomeTitle: 'Un mundo de gatitos te espera.',
+  welcomeDescription: 'Colecciona cartas, descubre rarezas y consigue las más difíciles.',
+  loginNote: 'Tu progreso va unido a tu cuenta de Discord.',
   loginSuccess: '¡Sesión iniciada correctamente!',
   loginError: 'No se pudo iniciar sesión con Discord. Inténtalo de nuevo.',
   dismiss: 'Cerrar aviso',

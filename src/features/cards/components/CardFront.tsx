@@ -20,7 +20,7 @@ export function CardFront({ card, className, overlay }: CardFrontProps) {
     <div
       style={rarityStyle(card.type)}
       className={cn(
-        'inline-grid overflow-hidden rounded-lg border border-(--rarity) bg-card',
+        'inline-grid overflow-hidden rounded-md border border-(--rarity) bg-card',
         className,
       )}
     >
@@ -30,7 +30,7 @@ export function CardFront({ card, className, overlay }: CardFrontProps) {
       </div>
       {/* `w-0 min-w-full`: el pie no ensancha la carta, ocupa lo que mida la imagen. */}
       <div className="flex w-0 min-w-full flex-col gap-0.5 border-t border-(--rarity)/40 px-3 py-2 text-left">
-        <span className="truncate text-sm font-medium">{card.name}</span>
+        <span className="truncate text-sm font-semibold">{card.name}</span>
         <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <span aria-hidden className="size-2 rounded-full bg-(--rarity)" />
           {getRarityName(card.type)}

@@ -12,7 +12,7 @@ export function ProfileHeader({ user }: { user: CurrentUser }) {
         className="size-16 md:size-20"
       />
       <div className="flex min-w-0 flex-col gap-2">
-        <h1 className="flex flex-wrap items-center gap-3 text-3xl leading-tight font-semibold md:text-4xl">
+        <h1 className="flex flex-wrap items-center gap-3 text-3xl leading-tight font-extrabold md:text-4xl">
           {user.username}
           {user.isAdmin && <Badge variant="secondary">{profileTexts.admin}</Badge>}
         </h1>

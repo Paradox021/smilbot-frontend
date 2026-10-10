@@ -2,13 +2,14 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/inter';
+@import '@fontsource-variable/nunito';
 
 @custom-variant dark (&:is(.dark *));
 
-/* Tokens basados en DESIGN.md (inspiración Raycast): un único modo oscuro,
-   escalera de superficies en vez de sombras y bordes hairline de 1px. */
+/* Tokens de DESIGN.md (identidad Smilbot): un único modo oscuro y cálido,
+   escalera de superficies en vez de sombras y el naranja reservado a la marca. */
 @theme inline {
-  --font-heading: var(--font-sans);
+  --font-heading: 'Nunito Variable', var(--font-sans);
   --font-sans: 'Inter Variable', system-ui, sans-serif;
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -32,53 +33,54 @@
   --color-body: var(--body);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: var(--radius);
-  --radius-xl: 16px;
+  --radius-xl: 20px;
 }
 
 :root {
   color-scheme: dark;
-  --radius: 10px;
+  /* Tarjetas y paneles; las cartas coleccionables y los campos usan rounded-md (12px). */
+  --radius: 16px;
 
-  /* Superficies: canvas → surface → surface-elevated → surface-card */
-  --background: #07080a;
-  --card: #0d0d0d;
-  --popover: #101111;
-  --secondary: #101111;
-  --muted: #121212;
-  --accent: #121212;
+  /* Superficies: fondo → superficie → superficie elevada → relleno suave */
+  --background: #0d111c;
+  --card: #171e2d;
+  --popover: #1f2738;
+  --secondary: #1f2738;
+  --muted: #252e42;
+  --accent: #252e42;
 
-  /* Texto */
-  --foreground: #f4f4f6;
-  --body: #cdcdcd;
-  --muted-foreground: #9c9c9d;
+  /* Texto crema */
+  --foreground: #f3eee7;
+  --body: #d9d3ca;
+  --muted-foreground: #a8a29a;
   --card-foreground: var(--foreground);
   --popover-foreground: var(--foreground);
   --secondary-foreground: var(--foreground);
   --accent-foreground: var(--foreground);
 
-  /* Acción principal: botón blanco */
-  --primary: #ffffff;
-  --primary-pressed: #e8e8e8;
-  --primary-foreground: #07080a;
+  /* Naranja Smilbot: acción principal, logo y foco. Nunca en cartas (Legendaria es #ff8000). */
+  --primary: #ffad62;
+  --primary-pressed: #f29a4a;
+  --primary-foreground: #0d111c;
 
   /* Bordes */
-  --border: #242728;
-  --input: rgb(255 255 255 / 0.16);
-  --ring: #9c9c9d;
+  --border: #283149;
+  --input: #36405a;
+  --ring: rgb(255 173 98 / 0.6);
 
   /* Semánticos */
-  --destructive: #ff6161;
-  --success: #59d499;
-  --warning: #ffc533;
+  --destructive: #ff7a70;
+  --success: #5cd49b;
+  --warning: #f5c451;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring;
   }
   html {
     @apply font-sans;
@@ -86,5 +88,10 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
   }
 }

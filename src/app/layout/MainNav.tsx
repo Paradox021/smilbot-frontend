@@ -8,7 +8,7 @@ export function MainNav() {
         <li key={to}>
           <NavLink
             to={to}
-            className="flex items-center gap-2 rounded-full px-3 py-1 text-sm text-body transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none aria-[current=page]:bg-secondary aria-[current=page]:text-foreground"
+            className="flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm text-body transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none aria-[current=page]:bg-secondary aria-[current=page]:text-foreground"
           >
             <Icon aria-hidden className="size-4" />
             {label}

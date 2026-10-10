@@ -41,7 +41,7 @@ export function PullExperience({ stats }: { stats: UserStats }) {
 
   return (
     <section className="flex flex-1 flex-col items-center text-center">
-      <h1 className="text-2xl font-medium tracking-[0.2px] md:text-3xl">{t.title}</h1>
+      <h1 className="text-3xl font-extrabold md:text-4xl">{t.title}</h1>
       <p
         className={cn('mt-2 text-sm text-muted-foreground tabular-nums', animating && 'invisible')}
       >
@@ -50,7 +50,7 @@ export function PullExperience({ stats }: { stats: UserStats }) {
 
       <PullStage state={state} reducedMotion={reducedMotion} onSkip={skip} />
 
-      <div className="flex min-h-28 w-full flex-col items-center">
+      <div className="mb-4 flex min-h-36 w-full flex-col items-center">
         {showResult && <PullResultDetails key={state.round} outcome={outcome} />}
       </div>
 

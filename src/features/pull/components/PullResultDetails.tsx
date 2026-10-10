@@ -24,7 +24,7 @@ export function PullResultDetails({ outcome }: { outcome: PullOutcome }) {
           {result.isPity && <Badge variant="secondary">{t.pityBadge}</Badge>}
         </div>
       )}
-      <h2 className="text-xl font-medium tracking-[0.2px]">{result.name}</h2>
+      <h2 className="text-2xl font-extrabold">{result.name}</h2>
       {rarity && (
         <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <span
