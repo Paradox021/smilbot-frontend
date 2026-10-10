@@ -18,11 +18,12 @@ Este documento fija el stack, la arquitectura y las reglas obligatorias para cua
   - `Backend API/Endpoints *.md`: contratos de cada endpoint.
   - `Modelos y Contratos/*.md`: modelos (`User`, `Card`, `MarketOffer`, `Transaction`), rarezas, economía, pity y suerte.
   - `Frontend/Arquitectura Frontend.md`: decisiones del frontend que conoce el resto del ecosistema.
+  - `Frontend/Pendientes Frontend.md`: necesidades del backend, incoherencias de la bóveda y pendientes del frontend.
 
 ### Los contratos de la API no se inventan
 - Los tipos y llamadas a la API se escriben **según la bóveda**. Si una nota y el comportamiento real no coinciden, avisa en vez de adaptar el frontend en silencio.
-- Si una pantalla necesita un endpoint o dato que no existe, **no lo simules ni lo calcules a base de muchas peticiones**: detente y propón el cambio en el backend (y en su nota de la bóveda).
-- Si cambias algo que afecta al ecosistema (variables de entorno, URL de despliegue, nuevas necesidades del backend), actualiza `Frontend/Arquitectura Frontend.md`. Si creas una nota nueva, enlázala en el `README.md` de la bóveda.
+- Si una pantalla necesita un endpoint o dato que no existe, **no lo simules ni lo calcules a base de muchas peticiones**: detente, apúntalo en `Frontend/Pendientes Frontend.md` y propón el cambio en el backend (y en su nota de la bóveda).
+- Si cambias algo que afecta al ecosistema (variables de entorno, URL de despliegue, rutas), actualiza `Frontend/Arquitectura Frontend.md`. Si creas una nota nueva, enlázala en el `README.md` de la bóveda.
 
 ---
 
