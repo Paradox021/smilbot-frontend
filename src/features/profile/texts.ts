@@ -15,10 +15,14 @@ export const profileTexts = {
   dailyStreak: 'Racha actual',
   maxDailyStreak: 'Mejor racha',
   totalDailiesClaimed: 'Recompensas diarias',
+  dailyAvailable: 'Daily disponible',
+  nextDaily: (when: string) => `Próximo daily ${when}`,
+  streakExpires: (when: string) => `La racha se rompe ${when}`,
 
   collectionTitle: 'Colección',
   cardsCount: 'Cartas en inventario',
   cardsOpenedCount: 'Sobres abiertos',
+  memberSince: 'Miembro desde',
 
   luckTitle: 'Suerte en el gacha',
   luckEmpty: 'Aún no has abierto ningún sobre. Tu suerte aparecerá aquí cuando lo hagas.',
