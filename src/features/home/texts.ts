@@ -15,6 +15,7 @@ export const homeTexts = {
   pityProgressLabel: 'Progreso hacia la mítica garantizada',
   pityProgress: (current: string, threshold: string) =>
     `${current} de ${threshold} sobres sin mítica`,
+  openPack: (cost: string) => `Abrir un sobre · ${cost}`,
 
   allStats: 'Ver todas tus estadísticas',
 } as const

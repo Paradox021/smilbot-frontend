@@ -2,6 +2,8 @@ export const appTexts = {
   brand: 'Smilbot',
   mainNavigation: 'Navegación principal',
   navHome: 'Inicio',
+  navPull: 'Tirar',
+  sectionsNavigation: 'Secciones',
   notFoundTitle: 'Página no encontrada',
   notFoundDescription: 'La página que buscas no existe.',
   routeErrorTitle: 'Algo ha ido mal',

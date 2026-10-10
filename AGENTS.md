@@ -56,8 +56,9 @@ src/
     auth/               # sesión, login/logout, guardas de ruta
     home/               # página de Inicio (tablero)
     daily/              # reclamo del daily
-    cards/              # catálogo, carta individual, rarezas
+    cards/              # tipo Card y caras de carta compartidas (CardFront, CardBack, CardImage)
     inventory/          # inventario del usuario
+    pull/               # tirada (abrir sobre) y su animación por rareza
     market/             # ofertas, publicar, comprar, cancelar
     leaderboard/        # rankings
     profile/            # página de perfil

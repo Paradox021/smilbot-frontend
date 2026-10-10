@@ -1,11 +1,15 @@
 import { useId } from 'react'
+import { Link } from 'react-router'
 import { getPityProgress, type PityStats } from '@/features/stats'
+import { PULL_COST } from '@/shared/config/economy'
+import { ROUTES } from '@/shared/config/routes'
 import { formatNumber } from '@/shared/lib/format'
+import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Progress } from '@/shared/ui/progress'
 import { homeTexts as t } from '../texts'
 
-/** Resumen del pity: cuántos sobres faltan para la mítica garantizada. */
+/** Resumen del pity (cuántos sobres faltan para la mítica garantizada) y acceso a la tirada. */
 export function GuaranteeCard({ pity }: { pity: PityStats }) {
   const labelId = useId()
 
@@ -28,6 +32,9 @@ export function GuaranteeCard({ pity }: { pity: PityStats }) {
             formatNumber(pity.pityThreshold),
           )}
         </p>
+        <Button asChild variant="secondary" className="mt-2 self-start">
+          <Link to={ROUTES.pull}>{t.openPack(formatNumber(PULL_COST))}</Link>
+        </Button>
       </CardContent>
     </Card>
   )
