@@ -1,4 +1,4 @@
-import { formatDate, formatNumber } from './format'
+import { formatNumber, formatPercent } from './format'
 
 describe('format', () => {
   it('formatea números en español', () => {
@@ -6,11 +6,14 @@ describe('format', () => {
     expect(formatNumber(1650)).toBe('1.650')
   })
 
-  it('formatea fechas ISO en español', () => {
-    expect(formatDate('2026-01-15T12:00:00.000Z')).toBe('15 de enero de 2026')
+  it('formatea puntos porcentuales', () => {
+    expect(formatPercent(138.5)).toBe('138,5 %')
+    expect(formatPercent(100)).toBe('100 %')
   })
 
-  it('devuelve un guion para fechas inválidas', () => {
-    expect(formatDate('no-es-fecha')).toBe('—')
+  it('formatea porcentajes con signo', () => {
+    expect(formatPercent(38.5, { signed: true })).toBe('+38,5 %')
+    expect(formatPercent(-12, { signed: true })).toBe('-12 %')
+    expect(formatPercent(0, { signed: true })).toBe('0 %')
   })
 })

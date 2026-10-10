@@ -1,8 +1,9 @@
 export type RarityType = 0 | 1 | 2 | 3 | 4
+export type RarityKey = 'common' | 'rare' | 'epic' | 'legendary' | 'mythic'
 
 export interface Rarity {
   type: RarityType
-  key: 'common' | 'rare' | 'epic' | 'legendary' | 'mythic'
+  key: RarityKey
   name: string
   color: string
   probability: number
