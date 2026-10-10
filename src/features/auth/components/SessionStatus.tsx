@@ -12,8 +12,8 @@ export function SessionLoading() {
 export function SessionError({ onRetry }: { onRetry: () => void }) {
   return (
     <div role="alert" className="flex flex-col items-center gap-3 py-12 text-center">
-      <p>{authTexts.sessionError}</p>
-      <Button variant="outline" onClick={onRetry}>
+      <p className="text-body">{authTexts.sessionError}</p>
+      <Button variant="secondary" onClick={onRetry}>
         {authTexts.retry}
       </Button>
     </div>

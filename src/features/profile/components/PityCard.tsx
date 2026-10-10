@@ -14,10 +14,12 @@ export function PityCard({ pity }: { pity: PityStats }) {
       <CardHeader>
         <CardTitle>{t.pityTitle}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3">
+      <CardContent className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex justify-between gap-2 text-sm">
-            <span id={labelId}>{t.pityProgressLabel}</span>
+            <span id={labelId} className="text-body">
+              {t.pityProgressLabel}
+            </span>
             <span className="tabular-nums">
               {t.pityProgress(
                 formatNumber(pity.pullsSinceLastMythic),
@@ -30,9 +32,11 @@ export function PityCard({ pity }: { pity: PityStats }) {
         <p className="text-sm text-muted-foreground">
           {t.pullsUntilGuaranteed(formatNumber(pity.pullsUntilGuaranteed))}
         </p>
-        <p className="text-sm">
+        <p className="text-sm text-body">
           {t.pityMythicsCount}:{' '}
-          <span className="font-semibold tabular-nums">{formatNumber(pity.pityMythicsCount)}</span>
+          <span className="font-medium text-foreground tabular-nums">
+            {formatNumber(pity.pityMythicsCount)}
+          </span>
         </p>
       </CardContent>
     </Card>

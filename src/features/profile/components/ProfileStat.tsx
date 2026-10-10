@@ -5,9 +5,9 @@ interface ProfileStatProps {
 
 export function ProfileStat({ label, value }: ProfileStatProps) {
   return (
-    <div className="rounded-lg border bg-muted/40 p-3">
-      <dt className="text-xs text-muted-foreground">{label}</dt>
-      <dd className="mt-1 text-lg font-semibold tabular-nums">{value}</dd>
+    <div className="flex flex-col gap-1">
+      <dt className="text-[13px] tracking-[0.1px] text-muted-foreground">{label}</dt>
+      <dd className="text-xl font-medium tabular-nums">{value}</dd>
     </div>
   )
 }

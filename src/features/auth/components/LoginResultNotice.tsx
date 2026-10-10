@@ -13,7 +13,7 @@ export function LoginResultNotice() {
 
   return (
     <Alert
-      variant={isSuccess ? 'default' : 'destructive'}
+      variant={isSuccess ? 'success' : 'destructive'}
       role={isSuccess ? 'status' : 'alert'}
       className="pr-12"
     >
@@ -26,7 +26,7 @@ export function LoginResultNotice() {
         size="icon-sm"
         onClick={dismiss}
         aria-label={authTexts.dismiss}
-        className="absolute top-1.5 right-1.5"
+        className="absolute top-2 right-2"
       >
         <X aria-hidden />
       </Button>

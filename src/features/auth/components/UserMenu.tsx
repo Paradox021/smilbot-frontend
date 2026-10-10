@@ -14,7 +14,7 @@ export function UserMenu() {
         {user.username}
       </span>
       <Button
-        variant="outline"
+        variant="secondary"
         size="sm"
         onClick={() => logout.mutate()}
         disabled={logout.isPending}
