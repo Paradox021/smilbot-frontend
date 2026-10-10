@@ -37,14 +37,16 @@ describe('auth', () => {
     signedIn()
     renderApp('/perfil')
 
-    expect(await screen.findByRole('heading', { name: 'Mi perfil' })).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { name: currentUserFixture.username }),
+    ).toBeInTheDocument()
   })
 
   it('con sesión, el inicio lleva al perfil', async () => {
     signedIn()
     const { router } = renderApp('/')
 
-    await screen.findByRole('heading', { name: 'Mi perfil' })
+    await screen.findByRole('heading', { name: currentUserFixture.username })
     expect(router.state.location.pathname).toBe('/perfil')
   })
 
@@ -61,7 +63,9 @@ describe('auth', () => {
     renderApp('/perfil')
 
     await userEvent.click(await screen.findByRole('button', { name: authTexts.retry }))
-    expect(await screen.findByRole('heading', { name: 'Mi perfil' })).toBeInTheDocument()
+    expect(
+      await screen.findByRole('heading', { name: currentUserFixture.username }),
+    ).toBeInTheDocument()
   })
 
   it('lee ?login=success, lo muestra y limpia la URL', async () => {
