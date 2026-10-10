@@ -76,6 +76,7 @@ src/
 - `features/*` puede importar de `shared/`. `shared/` **nunca** importa de `features/`.
 - Una feature solo importa de otra a través de su `index.ts`, nunca de sus archivos internos.
 - `app/` compone features; no contiene lógica de dominio.
+- Cada página enrutable se carga de forma diferida (`lazy` en la definición de rutas de React Router), salvo la página inicial y el layout.
 - Alias de importación `@/` → `src/`. Nada de rutas relativas largas (`../../..`).
 
 ---
@@ -98,6 +99,7 @@ src/
 - Un usuario solo puede **modificar** lo suyo (reclamar el saldo diario, tirar carta, operar en el mercado como él mismo). Consulta la matriz de permisos antes de crear una pantalla que modifique datos.
 
 ### Datos
+- `GET /auth/me` se usa **solo para la identidad** (quién soy, `discordId`, `isAdmin`). Los datos que cambian (saldo, rachas, stats, inventario) se obtienen con queries de su propia feature, y las mutaciones invalidan esas queries. Ninguna pantalla debe mostrar saldo ni stats sacados de `/auth/me`.
 - **Los IDs de Discord son `string`**, siempre. Son snowflakes de 64 bits y se corrompen si se convierten a `number`.
 - Rareza de carta (`Card.type`): `0` Common, `1` Rare, `2` Epic, `3` Legendary, `4` Mythic. Defínelo una sola vez en `shared/config` (nombre, color, orden) y reutilízalo.
 - `Card.imageUrl` es una URL absoluta sea cual sea el proveedor (local, Cloudinary o Supabase; ver `Backend API/Hosting de Imagenes.md`). Puede faltar: muestra siempre una imagen de reserva, desde un único componente de imagen de carta.
