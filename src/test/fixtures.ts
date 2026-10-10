@@ -1,4 +1,5 @@
 import type { CurrentUser } from '@/features/auth'
+import type { Inventory } from '@/features/inventory'
 import type { UserStats } from '@/features/stats'
 
 export const currentUserFixture: CurrentUser = {
@@ -43,4 +44,19 @@ export const userStatsFixture: UserStats = {
     eligibleForLeaderboard: true,
     breakdown: { common: 18, rare: 11, epic: 4, legendary: 2, mythic: 0, pityMythics: 1 },
   },
+}
+
+/** Ejemplo de `GET /user/:id/cards` (solo los campos que usa el frontend). */
+export const inventoryFixture: Inventory = {
+  discordId: '123456789012345678',
+  cards: [
+    {
+      _id: '642dbd17fc0fd3e62bde6601',
+      name: 'Bob',
+      description: 'Una carta común',
+      type: 0,
+      imageUrl: 'https://img.test/bob.png',
+      count: 3,
+    },
+  ],
 }

@@ -21,6 +21,13 @@ export const routes: RouteObject[] = [
             },
           },
           {
+            path: ROUTES.pull,
+            lazy: async () => {
+              const { PullPage } = await import('@/features/pull')
+              return { Component: PullPage }
+            },
+          },
+          {
             path: ROUTES.profile,
             lazy: async () => {
               const { ProfilePage } = await import('@/features/profile')
