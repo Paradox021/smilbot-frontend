@@ -4,6 +4,8 @@ import type { RarityKey } from '@/shared/config/rarities'
 export interface UserStats {
   discordId: string
   username: string
+  /** Avatar de Discord (o el avatar por defecto de Discord); siempre presente. */
+  avatarUrl: string
   balance: number
   dailyStreak: number
   maxDailyStreak: number

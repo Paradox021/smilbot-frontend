@@ -1,6 +1,7 @@
 import { Button } from '@/shared/ui/button'
 import { useCurrentUser, useLogoutMutation } from '../queries'
 import { authTexts } from '../texts'
+import { UserAvatar } from './UserAvatar'
 
 export function UserMenu() {
   const { data: user } = useCurrentUser()
@@ -10,6 +11,7 @@ export function UserMenu() {
 
   return (
     <div className="flex items-center gap-3">
+      <UserAvatar username={user.username} avatarUrl={user.avatarUrl} size="sm" />
       <span className="hidden truncate text-sm text-muted-foreground sm:inline">
         {user.username}
       </span>

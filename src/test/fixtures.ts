@@ -5,12 +5,14 @@ export const currentUserFixture: CurrentUser = {
   discordId: '123456789012345678',
   username: 'Gamer123',
   isAdmin: false,
+  avatarUrl: 'https://cdn.discordapp.com/embed/avatars/0.png',
 }
 
 /** Ejemplo de `GET /user/:id/stats` tomado de la bóveda (`Endpoints Usuarios y Stats.md`). */
 export const userStatsFixture: UserStats = {
   discordId: '123456789012345678',
   username: 'Gamer123',
+  avatarUrl: 'https://cdn.discordapp.com/embed/avatars/0.png',
   balance: 1650,
   dailyStreak: 11,
   maxDailyStreak: 15,

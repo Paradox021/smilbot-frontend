@@ -7,6 +7,8 @@ export interface CurrentUser {
   discordId: string
   username: string
   isAdmin: boolean
+  /** Avatar de Discord (o el avatar por defecto de Discord); siempre presente. */
+  avatarUrl: string
 }
 
 export type LoginResult = 'success' | 'error'
