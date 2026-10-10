@@ -1,7 +1,7 @@
 import { formatNumber } from '@/shared/lib/format'
-import { getRarityBreakdown } from '../stats'
+import { getRarityBreakdown } from '@/features/stats'
 import { profileTexts } from '../texts'
-import type { LuckStats } from '../types'
+import type { LuckStats } from '@/features/stats'
 
 export function RarityBreakdown({ breakdown }: { breakdown: LuckStats['breakdown'] }) {
   return (

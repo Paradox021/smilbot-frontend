@@ -44,3 +44,13 @@ export function formatRelativeTime(value: string | Date, now: Date = new Date())
   }
   return relativeTimeFormatter.format(Math.round(diff / 1000), 'second')
 }
+
+const pad = (value: number) => String(value).padStart(2, '0')
+
+/** Cuenta atrás `HH:MM:SS` hasta `target` (`00:00:00` si ya pasó). */
+export function formatCountdown(target: string | Date, now: Date = new Date()): string {
+  const totalSeconds = Math.max(0, Math.ceil((new Date(target).getTime() - now.getTime()) / 1000))
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  return `${pad(hours)}:${pad(minutes)}:${pad(totalSeconds % 60)}`
+}

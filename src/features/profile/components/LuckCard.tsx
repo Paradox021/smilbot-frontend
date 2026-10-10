@@ -1,9 +1,9 @@
 import { getLuckTier } from '@/shared/config/luckTiers'
 import { formatNumber, formatPercent } from '@/shared/lib/format'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
-import { hasLuckData } from '../stats'
+import { hasLuckData } from '@/features/stats'
 import { profileTexts as t } from '../texts'
-import type { LuckStats } from '../types'
+import type { LuckStats } from '@/features/stats'
 import { ProfileStat } from './ProfileStat'
 import { RarityBreakdown } from './RarityBreakdown'
 

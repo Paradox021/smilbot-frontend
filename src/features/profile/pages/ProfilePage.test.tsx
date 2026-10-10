@@ -5,7 +5,7 @@ import { currentUserFixture, userStatsFixture } from '@/test/fixtures'
 import { renderApp } from '@/test/render'
 import { apiUrl, server } from '@/test/server'
 import { profileTexts } from '../texts'
-import type { UserStats } from '../types'
+import type { UserStats } from '@/features/stats'
 
 const signedIn = (user = currentUserFixture) =>
   server.use(http.get(apiUrl('/auth/me'), () => HttpResponse.json(user)))

@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { fetchUserStats } from './api'
 
-export const profileKeys = {
-  all: ['profile'] as const,
-  stats: (discordId: string) => [...profileKeys.all, 'stats', discordId] as const,
+export const statsKeys = {
+  all: ['stats'] as const,
+  user: (discordId: string) => [...statsKeys.all, 'user', discordId] as const,
 }
 
 export function useUserStats(discordId: string) {
   return useQuery({
-    queryKey: profileKeys.stats(discordId),
+    queryKey: statsKeys.user(discordId),
     queryFn: ({ signal }) => fetchUserStats(discordId, signal),
   })
 }

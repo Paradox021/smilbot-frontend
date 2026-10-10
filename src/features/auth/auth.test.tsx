@@ -80,12 +80,12 @@ describe('auth', () => {
     ).toBeInTheDocument()
   })
 
-  it('con sesión, el inicio lleva al perfil', async () => {
+  it('con sesión, la portada lleva al inicio', async () => {
     signedIn()
     const { router } = renderApp('/')
 
-    await screen.findByRole('heading', { name: currentUserFixture.username })
-    expect(router.state.location.pathname).toBe('/perfil')
+    await screen.findByRole('heading', { name: `Hola, ${currentUserFixture.username}` })
+    expect(router.state.location.pathname).toBe('/inicio')
   })
 
   it('muestra un error con reintento si no se puede comprobar la sesión', async () => {
@@ -140,7 +140,8 @@ describe('auth', () => {
     )
     const { router } = renderApp('/perfil')
 
-    await userEvent.click(await screen.findByRole('button', { name: authTexts.logout }))
+    await userEvent.click(await screen.findByRole('button', { name: authTexts.userMenu }))
+    await userEvent.click(await screen.findByRole('menuitem', { name: authTexts.logout }))
 
     await screen.findByRole('link', { name: authTexts.loginWithDiscord })
     expect(loggedOut).toBe(true)

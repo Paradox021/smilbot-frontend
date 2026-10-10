@@ -1,6 +1,6 @@
 import { formatDate, formatNumber, formatRelativeTime } from '@/shared/lib/format'
 import { profileTexts as t } from '../texts'
-import type { UserStats } from '../types'
+import type { UserStats } from '@/features/stats'
 import { StatsCard } from './StatsCard'
 
 function streakNotes(stats: UserStats, now: Date): string[] {

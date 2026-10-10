@@ -1,4 +1,4 @@
-import { useUserStats } from '../queries'
+import { useUserStats } from '@/features/stats'
 import { LuckCard } from './LuckCard'
 import { PityCard } from './PityCard'
 import { ProfileStatsError, ProfileStatsSkeleton } from './ProfileStatsStatus'

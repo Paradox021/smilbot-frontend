@@ -14,6 +14,13 @@ export const routes: RouteObject[] = [
         element: <RequireAuth />,
         children: [
           {
+            path: ROUTES.dashboard,
+            lazy: async () => {
+              const { HomePage } = await import('@/features/home')
+              return { Component: HomePage }
+            },
+          },
+          {
             path: ROUTES.profile,
             lazy: async () => {
               const { ProfilePage } = await import('@/features/profile')

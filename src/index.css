@@ -15,6 +15,7 @@
   --color-border: var(--border);
   --color-destructive: var(--destructive);
   --color-success: var(--success);
+  --color-warning: var(--warning);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -72,6 +73,7 @@
   /* Semánticos */
   --destructive: #ff6161;
   --success: #59d499;
+  --warning: #ffc533;
 }
 
 @layer base {

@@ -1,5 +1,5 @@
 import type { CurrentUser } from '@/features/auth'
-import type { UserStats } from '@/features/profile'
+import type { UserStats } from '@/features/stats'
 
 export const currentUserFixture: CurrentUser = {
   discordId: '123456789012345678',
