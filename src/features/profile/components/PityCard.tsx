@@ -2,9 +2,9 @@ import { useId } from 'react'
 import { formatNumber } from '@/shared/lib/format'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Progress } from '@/shared/ui/progress'
-import { getPityProgress } from '../stats'
+import { getPityProgress } from '@/features/stats'
 import { profileTexts as t } from '../texts'
-import type { PityStats } from '../types'
+import type { PityStats } from '@/features/stats'
 
 export function PityCard({ pity }: { pity: PityStats }) {
   const labelId = useId()

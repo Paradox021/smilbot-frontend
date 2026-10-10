@@ -12,4 +12,6 @@ export const authTexts = {
   loadingSession: 'Comprobando sesión…',
   sessionError: 'No se pudo comprobar tu sesión.',
   retry: 'Reintentar',
+  userMenu: 'Menú de usuario',
+  profile: 'Perfil',
 } as const

@@ -54,11 +54,14 @@ src/
   app/                  # arranque: router, providers (QueryClient, tema), layout raíz
   features/
     auth/               # sesión, login/logout, guardas de ruta
+    home/               # página de Inicio (tablero)
+    daily/              # reclamo del daily
     cards/              # catálogo, carta individual, rarezas
     inventory/          # inventario del usuario
     market/             # ofertas, publicar, comprar, cancelar
     leaderboard/        # rankings
-    profile/            # perfil y stats
+    profile/            # página de perfil
+    stats/              # stats del usuario (compartidas: cabecera, Inicio, Perfil)
       api.ts            #   llamadas HTTP de la funcionalidad (usa shared/lib/http)
       queries.ts        #   query keys + hooks de TanStack Query (useX / useXMutation)
       types.ts          #   tipos de la API de esta funcionalidad

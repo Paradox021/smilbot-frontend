@@ -13,7 +13,7 @@ export function LoginPage() {
 
   if (isPending) return <SessionLoading />
   if (isError) return <SessionError onRetry={() => void refetch()} />
-  if (user) return <Navigate to={returnTo ?? ROUTES.profile} replace />
+  if (user) return <Navigate to={returnTo ?? ROUTES.dashboard} replace />
 
   return (
     <section className="flex flex-col items-start gap-6 py-8 md:py-16">

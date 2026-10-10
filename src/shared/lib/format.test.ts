@@ -1,4 +1,10 @@
-import { formatDate, formatNumber, formatPercent, formatRelativeTime } from './format'
+import {
+  formatCountdown,
+  formatDate,
+  formatNumber,
+  formatPercent,
+  formatRelativeTime,
+} from './format'
 
 describe('format', () => {
   it('formatea números en español', () => {
@@ -30,5 +36,14 @@ describe('format', () => {
     expect(formatRelativeTime(at(3 * 86_400_000), now)).toBe('dentro de 3 días')
     expect(formatRelativeTime(at(-5 * 60_000), now)).toBe('hace 5 minutos')
     expect(formatRelativeTime(now.toISOString(), now)).toBe('ahora')
+  })
+
+  it('formatea cuentas atrás en HH:MM:SS', () => {
+    const now = new Date('2025-06-01T12:00:00.000Z')
+    const at = (ms: number) => new Date(now.getTime() + ms)
+    expect(formatCountdown(at(5 * 3_600_000 + 12 * 60_000 + 30_000), now)).toBe('05:12:30')
+    expect(formatCountdown(at(59_500), now)).toBe('00:01:00')
+    expect(formatCountdown(at(26 * 3_600_000), now)).toBe('26:00:00')
+    expect(formatCountdown(at(-1000), now)).toBe('00:00:00')
   })
 })
