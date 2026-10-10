@@ -4,9 +4,11 @@ import { ProfileStat } from './ProfileStat'
 interface StatsCardProps {
   title: string
   stats: { label: string; value: string }[]
+  /** Líneas de estado bajo las cifras (p. ej. disponibilidad del daily). */
+  notes?: string[]
 }
 
-export function StatsCard({ title, stats }: StatsCardProps) {
+export function StatsCard({ title, stats, notes = [] }: StatsCardProps) {
   return (
     <Card>
       <CardHeader>
@@ -18,6 +20,13 @@ export function StatsCard({ title, stats }: StatsCardProps) {
             <ProfileStat key={stat.label} {...stat} />
           ))}
         </dl>
+        {notes.length > 0 && (
+          <ul className="mt-5 flex flex-col gap-1 text-sm text-muted-foreground">
+            {notes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        )}
       </CardContent>
     </Card>
   )

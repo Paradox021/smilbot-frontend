@@ -1,5 +1,6 @@
 export { LoginResultNotice } from './components/LoginResultNotice'
 export { RequireAuth } from './components/RequireAuth'
+export { UserAvatar } from './components/UserAvatar'
 export { UserMenu } from './components/UserMenu'
 export { LoginPage } from './pages/LoginPage'
 export { authKeys, useCurrentUser, useLogoutMutation } from './queries'

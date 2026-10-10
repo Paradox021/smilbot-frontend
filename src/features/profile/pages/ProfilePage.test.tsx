@@ -40,6 +40,7 @@ describe('ProfilePage', () => {
     expect(statValue(profileTexts.dailyStreak)).toBe('11 días')
     expect(statValue(profileTexts.maxDailyStreak)).toBe('15 días')
     expect(statValue(profileTexts.cardsCount)).toBe('35')
+    expect(statValue(profileTexts.memberSince)).toBe('12 de marzo de 2025')
     expect(statValue(profileTexts.luckPercentage)).toBe('138,5 %')
     expect(statValue(profileTexts.luckDelta)).toBe('+38,5 %')
     expect(screen.getByText('Afortunado')).toBeInTheDocument()
@@ -64,6 +65,34 @@ describe('ProfilePage', () => {
       'Legendaria2',
       'Mítica0',
     ])
+  })
+
+  it('muestra el daily disponible y cuándo se rompe la racha', async () => {
+    const inHours = (hours: number) => new Date(Date.now() + hours * 3_600_000).toISOString()
+    signedIn()
+    withStats({ ...userStatsFixture, nextDailyAt: inHours(-1), streakExpiresAt: inHours(23) })
+    renderApp('/perfil')
+
+    expect(await screen.findByText(profileTexts.dailyAvailable)).toBeInTheDocument()
+    expect(screen.getByText('La racha se rompe dentro de 23 horas')).toBeInTheDocument()
+  })
+
+  it('muestra cuándo llega el próximo daily y oculta datos ausentes', async () => {
+    const inHours = (hours: number) => new Date(Date.now() + hours * 3_600_000).toISOString()
+    signedIn()
+    withStats({
+      ...userStatsFixture,
+      createdAt: null,
+      dailyStreak: 0,
+      nextDailyAt: inHours(5),
+      streakExpiresAt: null,
+    })
+    renderApp('/perfil')
+
+    expect(await screen.findByText('Próximo daily dentro de 5 horas')).toBeInTheDocument()
+    expect(screen.queryByText(profileTexts.dailyAvailable)).not.toBeInTheDocument()
+    expect(screen.queryByText(/La racha se rompe/)).not.toBeInTheDocument()
+    expect(screen.queryByText(profileTexts.memberSince)).not.toBeInTheDocument()
   })
 
   it('marca a los administradores', async () => {

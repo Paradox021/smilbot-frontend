@@ -33,6 +33,44 @@ describe('auth', () => {
     expect(router.state.location.pathname).toBe('/')
   })
 
+  it('la guarda pasa la ruta original como returnTo al login', async () => {
+    signedOut()
+    const { router } = renderApp('/perfil?tab=stats')
+
+    const link = await screen.findByRole('link', { name: authTexts.loginWithDiscord })
+    expect(router.state.location.pathname).toBe('/')
+    expect(link).toHaveAttribute(
+      'href',
+      `${API_URL}/auth/discord?returnTo=${encodeURIComponent('/perfil?tab=stats')}`,
+    )
+  })
+
+  it('tras un login fallido en una ruta privada muestra el error y conserva el retorno', async () => {
+    signedOut()
+    renderApp('/perfil?login=error')
+
+    expect(await screen.findByText(authTexts.loginError)).toBeInTheDocument()
+    const link = await screen.findByRole('link', { name: authTexts.loginWithDiscord })
+    expect(link).toHaveAttribute('href', `${API_URL}/auth/discord?returnTo=%2Fperfil`)
+  })
+
+  it('tras un login correcto se queda en la ruta privada de retorno', async () => {
+    signedIn()
+    const { router } = renderApp('/perfil?login=success')
+
+    expect(await screen.findByText(authTexts.loginSuccess)).toBeInTheDocument()
+    await waitFor(() => expect(router.state.location.search).toBe(''))
+    expect(router.state.location.pathname).toBe('/perfil')
+  })
+
+  it('con sesión muestra el avatar (o sus iniciales) en la cabecera', async () => {
+    signedIn()
+    renderApp('/perfil')
+
+    await screen.findByRole('heading', { name: currentUserFixture.username })
+    expect(screen.getAllByText('GA').length).toBeGreaterThan(0)
+  })
+
   it('la guarda deja pasar con sesión', async () => {
     signedIn()
     renderApp('/perfil')
