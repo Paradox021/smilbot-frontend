@@ -4,8 +4,8 @@ import { profileTexts } from '../texts'
 
 export function ProfileHeader({ user }: { user: CurrentUser }) {
   return (
-    <header className="flex flex-col gap-1">
-      <h1 className="flex flex-wrap items-center gap-2 text-2xl font-bold">
+    <header className="flex flex-col gap-2">
+      <h1 className="flex flex-wrap items-center gap-3 text-3xl leading-tight font-semibold md:text-4xl">
         {user.username}
         {user.isAdmin && <Badge variant="secondary">{profileTexts.admin}</Badge>}
       </h1>

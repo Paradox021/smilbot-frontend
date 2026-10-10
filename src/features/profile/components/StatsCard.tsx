@@ -13,7 +13,7 @@ export function StatsCard({ title, stats }: StatsCardProps) {
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <dl className="grid grid-cols-2 gap-3">
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-5">
           {stats.map((stat) => (
             <ProfileStat key={stat.label} {...stat} />
           ))}

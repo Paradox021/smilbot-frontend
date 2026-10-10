@@ -11,9 +11,9 @@ interface MessagePageProps {
 export function MessagePage({ title, description }: MessagePageProps) {
   return (
     <section className="flex flex-col items-center gap-3 py-12 text-center">
-      <h1 className="text-2xl font-bold">{title}</h1>
-      <p className="text-muted-foreground">{description}</p>
-      <Button asChild variant="outline">
+      <h1 className="text-2xl font-semibold">{title}</h1>
+      <p className="text-body">{description}</p>
+      <Button asChild variant="secondary">
         <Link to={ROUTES.home}>{appTexts.backHome}</Link>
       </Button>
     </section>
