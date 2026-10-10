@@ -82,6 +82,21 @@ describe('HomePage', () => {
     expect(screen.queryByRole('button', { name: dailyTexts.claim('100') })).not.toBeInTheDocument()
   })
 
+  it('la acción principal es el daily si está disponible y, si no, abrir un sobre', async () => {
+    const openPack = () => screen.findByRole('link', { name: homeTexts.openPack('100') })
+    signedIn()
+    withStats(availableStats)
+    const { unmount } = renderApp('/inicio')
+
+    expect(await claimButton()).toHaveAttribute('data-variant', 'default')
+    expect(await openPack()).toHaveAttribute('data-variant', 'secondary')
+    unmount()
+
+    withStats(cooldownStats)
+    renderApp('/inicio')
+    expect(await openPack()).toHaveAttribute('data-variant', 'default')
+  })
+
   it('reclama el daily, muestra el resultado y refresca las stats', async () => {
     signedIn()
     const calls = withClaim(claimResponse, {

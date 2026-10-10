@@ -7,7 +7,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label={appTexts.sectionsNavigation}
-      className="fixed inset-x-0 bottom-0 z-40 border-t bg-background pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t bg-card pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <ul
         className="mx-auto grid h-16 max-w-md"
@@ -17,7 +17,7 @@ export function BottomNav() {
           <li key={to} className="flex">
             <NavLink
               to={to}
-              className="flex flex-1 flex-col items-center justify-center gap-1 text-xs text-muted-foreground transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset aria-[current=page]:text-foreground"
+              className="flex flex-1 flex-col items-center justify-center gap-1 text-xs text-muted-foreground transition-colors focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-inset aria-[current=page]:font-medium aria-[current=page]:text-foreground [&[aria-current=page]_svg]:text-primary"
             >
               <Icon aria-hidden className="size-5" />
               {label}

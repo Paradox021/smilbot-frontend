@@ -39,7 +39,7 @@ export function ClaimOutcomeMessage({ result }: { result: DailyClaimResult }) {
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className="flex flex-col gap-1"
     >
-      <p className="text-2xl font-medium text-success tabular-nums">
+      <p className="font-heading text-2xl font-extrabold text-success tabular-nums">
         {t.reward(formatNumber(DAILY_REWARD))}
       </p>
       <p

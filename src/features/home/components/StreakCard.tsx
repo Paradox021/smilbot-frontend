@@ -14,7 +14,7 @@ export function StreakCard({ stats }: { stats: UserStats }) {
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {hasStreak ? (
-          <p className="flex items-center gap-2 text-3xl font-medium tabular-nums">
+          <p className="flex items-center gap-2 font-heading text-3xl font-extrabold tabular-nums">
             <Flame aria-hidden className="size-6 text-warning" />
             {t.streakDays(formatNumber(stats.dailyStreak))}
           </p>

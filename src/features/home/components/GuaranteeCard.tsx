@@ -10,7 +10,14 @@ import { Progress } from '@/shared/ui/progress'
 import { homeTexts as t } from '../texts'
 
 /** Resumen del pity (cuántos sobres faltan para la mítica garantizada) y acceso a la tirada. */
-export function GuaranteeCard({ pity }: { pity: PityStats }) {
+export function GuaranteeCard({
+  pity,
+  primaryAction,
+}: {
+  pity: PityStats
+  /** El acceso a la tirada es la acción principal de la pantalla (daily en cooldown). */
+  primaryAction: boolean
+}) {
   const labelId = useId()
 
   return (
@@ -19,7 +26,7 @@ export function GuaranteeCard({ pity }: { pity: PityStats }) {
         <CardTitle>{t.pityTitle}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
-        <p className="text-3xl font-medium tabular-nums">
+        <p className="font-heading text-3xl font-extrabold tabular-nums">
           {t.pullsUntilGuaranteed(formatNumber(pity.pullsUntilGuaranteed))}
         </p>
         <span id={labelId} className="sr-only">
@@ -32,7 +39,11 @@ export function GuaranteeCard({ pity }: { pity: PityStats }) {
             formatNumber(pity.pityThreshold),
           )}
         </p>
-        <Button asChild variant="secondary" className="mt-2 self-start">
+        <Button
+          asChild
+          variant={primaryAction ? 'default' : 'secondary'}
+          className="mt-2 self-start"
+        >
           <Link to={ROUTES.pull}>{t.openPack(formatNumber(PULL_COST))}</Link>
         </Button>
       </CardContent>

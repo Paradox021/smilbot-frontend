@@ -6,7 +6,7 @@ import type { LuckStats } from '@/features/stats'
 export function RarityBreakdown({ breakdown }: { breakdown: LuckStats['breakdown'] }) {
   return (
     <section className="flex flex-col gap-3">
-      <h3 className="text-sm font-medium tracking-[0.2px]">{profileTexts.breakdownTitle}</h3>
+      <h3 className="text-sm font-bold">{profileTexts.breakdownTitle}</h3>
       <ul className="grid grid-cols-2 gap-2 sm:grid-cols-5">
         {getRarityBreakdown(breakdown).map(({ rarity, count }) => (
           <li

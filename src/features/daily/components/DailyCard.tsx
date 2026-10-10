@@ -56,7 +56,7 @@ export function DailyCard({ stats }: { stats: UserStats }) {
     <Card aria-labelledby={titleId} role="region" className="bg-secondary">
       <CardContent className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-col gap-2">
-          <h2 id={titleId} className="text-lg font-medium tracking-[0.2px]">
+          <h2 id={titleId} className="text-xl font-bold">
             {t.title}
           </h2>
           {status.kind === 'available' ? (
@@ -86,7 +86,7 @@ export function DailyCard({ stats }: { stats: UserStats }) {
         ) : (
           <div className="flex flex-col gap-1 md:items-end">
             <span className="text-sm text-muted-foreground">{t.nextIn}</span>
-            <span role="timer" className="text-3xl font-medium tabular-nums">
+            <span role="timer" className="font-heading text-3xl font-extrabold tabular-nums">
               {formatCountdown(status.availableAt, now)}
             </span>
           </div>

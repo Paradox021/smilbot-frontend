@@ -14,10 +14,10 @@ export function BalancePill({ discordId }: { discordId: string }) {
 
   return (
     <p
-      className="flex h-8 items-center gap-1.5 rounded-full border bg-secondary px-3 text-sm font-medium tabular-nums"
+      className="flex h-8 items-center gap-1.5 rounded-full bg-secondary px-3 font-heading text-[15px] font-bold tabular-nums"
       title={t.balance}
     >
-      <Coins aria-hidden className="size-4 text-muted-foreground" />
+      <Coins aria-hidden className="size-4 text-primary" />
       <span className="sr-only">{t.balance}: </span>
       <AnimatedNumber value={stats.balance} format={formatNumber} />
     </p>

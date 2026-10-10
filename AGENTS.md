@@ -52,6 +52,7 @@ Este documento fija el stack, la arquitectura y las reglas obligatorias para cua
 ```
 src/
   app/                  # arranque: router, providers (QueryClient, tema), layout raíz
+  assets/mascot/        # foto de Smilbot en WebP (128/320/640); se usa con shared/ui/mascot.tsx
   features/
     auth/               # sesión, login/logout, guardas de ruta
     home/               # página de Inicio (tablero)
@@ -70,7 +71,7 @@ src/
       pages/            #   páginas enrutables
       index.ts          #   API pública de la funcionalidad
   shared/
-    ui/                 # componentes de shadcn/ui y primitivas genéricas
+    ui/                 # componentes de shadcn/ui y primitivas genéricas (incluida la mascota)
     lib/                # http client, env, utilidades puras
     hooks/              # hooks genéricos (no de dominio)
     types/              # tipos compartidos entre features
@@ -127,9 +128,9 @@ src/
 - Sin código muerto, sin `console.log` olvidados y sin comentarios que repiten lo que hace el código.
 
 ### Diseño visual
-- La referencia visual es [`DESIGN.md`](DESIGN.md) (sistema de Raycast, de [awesome-design-md](https://github.com/VoltAgent/awesome-design-md)): paleta, tipografía, radios, bordes y espaciado. Léelo antes de crear o rediseñar UI y llévalo a tokens de Tailwind / variables de shadcn/ui, no a valores sueltos en los componentes.
-- Es una inspiración, no una marca: no copies logos, textos ni ilustraciones de Raycast.
-- Los colores de rareza siguen definiéndose una sola vez en `shared/config`; los acentos de `DESIGN.md` no los sustituyen.
+- La referencia visual es [`DESIGN.md`](DESIGN.md): la identidad propia de Smilbot (oscura y cálida, naranja de marca, Nunito + Inter, mascota). Léelo antes de crear o rediseñar UI y usa sus tokens de Tailwind / variables de shadcn/ui, no valores sueltos en los componentes.
+- El naranja de marca (`primary`) es para la acción principal (una por pantalla), el logo y el foco; nunca para marcar cartas. La mascota se muestra siempre con el componente `Mascot` (`shared/ui/mascot.tsx`).
+- Los colores de rareza se definen una sola vez en `shared/config` y coinciden con los del bot; la identidad no los cambia.
 
 ### Tests
 - Lógica pura (helpers, formateo, cliente HTTP y refresh): tests unitarios con Vitest.
