@@ -121,6 +121,11 @@ src/
 - Textos de la interfaz en **español**, en un solo sitio por feature, para poder traducirlos más adelante si hace falta.
 - Sin código muerto, sin `console.log` olvidados y sin comentarios que repiten lo que hace el código.
 
+### Diseño visual
+- La referencia visual es [`DESIGN.md`](DESIGN.md) (sistema de Raycast, de [awesome-design-md](https://github.com/VoltAgent/awesome-design-md)): paleta, tipografía, radios, bordes y espaciado. Léelo antes de crear o rediseñar UI y llévalo a tokens de Tailwind / variables de shadcn/ui, no a valores sueltos en los componentes.
+- Es una inspiración, no una marca: no copies logos, textos ni ilustraciones de Raycast.
+- Los colores de rareza siguen definiéndose una sola vez en `shared/config`; los acentos de `DESIGN.md` no los sustituyen.
+
 ### Tests
 - Lógica pura (helpers, formateo, cliente HTTP y refresh): tests unitarios con Vitest.
 - Hooks y páginas: Testing Library con la API mockeada con MSW. No se llama al backend real en los tests.
