@@ -1,16 +1,19 @@
-import { Navigate } from 'react-router'
+import { Navigate, useLocation } from 'react-router'
 import { ROUTES } from '@/shared/config/routes'
 import { LoginButton } from '../components/LoginButton'
 import { SessionError, SessionLoading } from '../components/SessionStatus'
 import { useCurrentUser } from '../queries'
+import { getReturnTo } from '../returnTo'
 import { authTexts } from '../texts'
 
 export function LoginPage() {
   const { data: user, isPending, isError, refetch } = useCurrentUser()
+  const location = useLocation()
+  const returnTo = getReturnTo(location.state)
 
   if (isPending) return <SessionLoading />
   if (isError) return <SessionError onRetry={() => void refetch()} />
-  if (user) return <Navigate to={ROUTES.profile} replace />
+  if (user) return <Navigate to={returnTo ?? ROUTES.profile} replace />
 
   return (
     <section className="flex flex-col items-start gap-6 py-8 md:py-16">
@@ -18,7 +21,7 @@ export function LoginPage() {
       <p className="max-w-[48ch] text-lg leading-relaxed text-body">
         {authTexts.welcomeDescription}
       </p>
-      <LoginButton />
+      <LoginButton returnTo={returnTo} />
     </section>
   )
 }

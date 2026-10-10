@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router'
 import { authKeys } from '../queries'
 import type { LoginResult } from '../types'
 
-const LOGIN_PARAM = 'login'
+export const LOGIN_PARAM = 'login'
 
 function parseLoginResult(value: string | null): LoginResult | null {
   return value === 'success' || value === 'error' ? value : null

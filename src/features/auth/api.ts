@@ -2,7 +2,13 @@ import { env } from '@/shared/lib/env'
 import { http, isApiError } from '@/shared/lib/http'
 import type { CurrentUser } from './types'
 
-export const discordLoginUrl = `${env.VITE_API_URL}/auth/discord`
+const discordLoginBaseUrl = `${env.VITE_API_URL}/auth/discord`
+
+/** URL de login con Discord. Si se indica `returnTo`, el backend vuelve a esa ruta tras el login. */
+export function getDiscordLoginUrl(returnTo?: string | null): string {
+  if (!returnTo) return discordLoginBaseUrl
+  return `${discordLoginBaseUrl}?returnTo=${encodeURIComponent(returnTo)}`
+}
 
 /** Devuelve `null` si no hay sesión (o si no se pudo renovar). */
 export async function fetchCurrentUser(signal?: AbortSignal): Promise<CurrentUser | null> {
