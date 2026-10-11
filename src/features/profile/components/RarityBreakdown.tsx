@@ -1,27 +1,35 @@
+import { getRarityBreakdown, type LuckStats } from '@/features/stats'
 import { formatNumber } from '@/shared/lib/format'
-import { getRarityBreakdown } from '@/features/stats'
 import { profileTexts } from '../texts'
-import type { LuckStats } from '@/features/stats'
 
+/** Barra apilada con los colores de rareza y una leyenda: la rareza nunca solo con color. */
 export function RarityBreakdown({ breakdown }: { breakdown: LuckStats['breakdown'] }) {
+  const rows = getRarityBreakdown(breakdown)
+
   return (
     <section className="flex flex-col gap-3">
       <h3 className="text-sm font-bold">{profileTexts.breakdownTitle}</h3>
-      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-5">
-        {getRarityBreakdown(breakdown).map(({ rarity, count }) => (
-          <li
-            key={rarity.key}
-            className="flex items-center justify-between gap-2 rounded-sm bg-muted px-3 py-2 text-sm"
-          >
-            <span className="flex items-center gap-2 text-body">
-              <span
-                aria-hidden
-                className="size-2 rounded-full"
-                style={{ backgroundColor: rarity.color }}
-              />
-              {rarity.name}
-            </span>
-            <span className="font-medium tabular-nums">{formatNumber(count)}</span>
+      <div aria-hidden className="flex h-3 gap-0.5 overflow-hidden rounded-full bg-muted">
+        {rows
+          .filter(({ count }) => count > 0)
+          .map(({ rarity, count }) => (
+            <span
+              key={rarity.key}
+              className="h-full"
+              style={{ flexGrow: count, backgroundColor: rarity.color }}
+            />
+          ))}
+      </div>
+      <ul className="flex flex-wrap gap-x-5 gap-y-2">
+        {rows.map(({ rarity, count }) => (
+          <li key={rarity.key} className="flex items-center gap-2 text-sm">
+            <span
+              aria-hidden
+              className="size-2.5 rounded-full"
+              style={{ backgroundColor: rarity.color }}
+            />
+            <span className="text-body">{rarity.name}</span>
+            <span className="font-heading font-bold tabular-nums">{formatNumber(count)}</span>
           </li>
         ))}
       </ul>

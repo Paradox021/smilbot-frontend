@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer } from 'react'
-import { getRevealTiming } from '../reveal'
+import { getRevealTiming, PACK_OPEN_MS } from '../reveal'
 import { initialPullSequence, isAnimating, pullSequenceReducer } from '../sequence'
 import type { PullOutcome } from '../types'
 
@@ -12,12 +12,12 @@ export function usePullSequence() {
   useEffect(() => {
     if (!outcome) return
     const timing = getRevealTiming(outcome.result.type)
-    const delay =
-      phase === 'anticipation'
-        ? timing.anticipationMs
-        : phase === 'revealing'
-          ? timing.flipMs
-          : null
+    const delays: Partial<Record<typeof phase, number>> = {
+      anticipation: timing.anticipationMs,
+      opening: PACK_OPEN_MS,
+      revealing: timing.flipMs,
+    }
+    const delay = delays[phase] ?? null
     if (delay === null) return
     const timer = window.setTimeout(() => dispatch({ type: 'advance' }), delay)
     return () => window.clearTimeout(timer)

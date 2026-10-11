@@ -1,21 +1,22 @@
-import { Button } from '@/shared/ui/button'
+import { ErrorState } from '@/shared/ui/error-state'
+import { Mascot } from '@/shared/ui/mascot'
 import { authTexts } from '../texts'
 
+/** Comprobando la sesión (carga de página completa). Aparece con retraso para no parpadear. */
 export function SessionLoading() {
   return (
-    <p role="status" className="py-12 text-center text-muted-foreground">
-      {authTexts.loadingSession}
-    </p>
+    <div
+      role="status"
+      className="flex flex-col items-center gap-5 py-16 text-center motion-safe:animate-[fade-in_400ms_300ms_both]"
+    >
+      <Mascot halo className="size-24" sizes="96px" />
+      <p className="text-muted-foreground">{authTexts.loadingSession}</p>
+    </div>
   )
 }
 
 export function SessionError({ onRetry }: { onRetry: () => void }) {
   return (
-    <div role="alert" className="flex flex-col items-center gap-3 py-12 text-center">
-      <p className="text-body">{authTexts.sessionError}</p>
-      <Button variant="secondary" onClick={onRetry}>
-        {authTexts.retry}
-      </Button>
-    </div>
+    <ErrorState message={authTexts.sessionError} retryLabel={authTexts.retry} onRetry={onRetry} />
   )
 }

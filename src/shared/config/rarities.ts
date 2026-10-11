@@ -18,6 +18,9 @@ export const RARITIES: readonly Rarity[] = [
   { type: 4, key: 'mythic', name: 'Mítica', color: '#c45039', probability: 0.005 },
 ]
 
+/** La rareza del pity: la mítica garantizada. */
+export const MYTHIC_TYPE: RarityType = 4
+
 export function isRarityType(value: number): value is RarityType {
   return RARITIES.some((rarity) => rarity.type === value)
 }

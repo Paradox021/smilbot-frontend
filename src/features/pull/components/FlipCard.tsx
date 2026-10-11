@@ -1,7 +1,8 @@
 import { cn } from 'cn'
-import { motion, type TargetAndTransition, type Transition } from 'motion/react'
+import { motion, type TargetAndTransition } from 'motion/react'
 import { CardBack, CardFront } from '@/features/cards'
-import type { RevealTiming } from '../reveal'
+import { EASE_OUT } from '@/shared/config/motion'
+import { PACK_OPEN_MS, type RevealTiming } from '../reveal'
 import type { PullPhase } from '../sequence'
 import type { PullResult } from '../types'
 import { BACK_SIZE, CARD_SLOT } from './cardSlot'
@@ -13,65 +14,53 @@ interface FlipCardProps {
   skipped: boolean
 }
 
-const SHUFFLE: TargetAndTransition = {
-  rotateY: 0,
-  rotateZ: [0, -4, 3, -2, 0],
-  y: [0, -8, 0],
-  scale: 1,
-  transition: {
-    rotateY: { duration: 0 },
-    default: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
-  },
-}
+const FLIP_EASE = [0.65, 0, 0.35, 1] as const
 
 function pose(
   phase: PullPhase,
   timing: RevealTiming | null,
   skipped: boolean,
 ): TargetAndTransition {
-  if (phase === 'shuffling') return SHUFFLE
-
-  const settle: Transition = { duration: 0.3, ease: 'easeOut' }
-  if (phase === 'anticipation' && timing) {
-    const beats = Array.from({ length: timing.pulses }, () => [1.04, 1]).flat()
+  // Dentro del sobre: invisible hasta que se rasga, para que no asome por los bordes al temblar.
+  if (phase === 'idle' || phase === 'shuffling' || phase === 'anticipation') {
+    return { opacity: 0, y: 0, rotateY: 0, transition: { duration: 0 } }
+  }
+  if (phase === 'opening') {
     return {
+      opacity: 1,
+      y: '-14%',
       rotateY: 0,
-      rotateZ: 0,
-      y: 0,
-      scale: [1, ...beats],
       transition: {
-        default: settle,
-        scale: { duration: timing.anticipationMs / 1000, ease: 'easeInOut' },
+        opacity: { duration: 0 },
+        y: { duration: PACK_OPEN_MS / 1000, delay: 0.1, ease: EASE_OUT },
       },
     }
   }
 
-  const faceUp = phase === 'revealing' || phase === 'result'
+  const animate = phase === 'revealing' && !skipped && timing
   return {
-    rotateY: faceUp ? 180 : 0,
-    rotateZ: 0,
+    opacity: 1,
     y: 0,
-    scale: 1,
-    transition: {
-      default: settle,
-      rotateY:
-        faceUp && !skipped && timing
-          ? { duration: timing.flipMs / 1000, ease: [0.65, 0, 0.35, 1] }
-          : { duration: 0 },
-    },
+    rotateY: 180,
+    transition: animate
+      ? {
+          y: { duration: (timing.flipMs / 1000) * 0.8, ease: EASE_OUT },
+          rotateY: { duration: timing.flipMs / 1000, ease: FLIP_EASE },
+        }
+      : { duration: 0 },
   }
 }
 
 const FACE = 'absolute inset-0 flex items-center justify-center'
 
-/** Carta que se baraja, brilla y gira para mostrar su cara. */
+/** Carta que espera dentro del sobre, asoma al rasgarlo, sube y gira para mostrar su cara. */
 export function FlipCard({ phase, card, timing, skipped }: FlipCardProps) {
-  const backRarity = phase === 'anticipation' && card ? card.type : undefined
+  const backRarity = card && phase === 'opening' ? card.type : undefined
   // La cara solo existe en el DOM desde el giro: así ni un lector de pantalla la anticipa.
   const faceUp = phase === 'revealing' || phase === 'result'
 
   return (
-    <div className={cn(CARD_SLOT, 'perspective-distant')}>
+    <div aria-hidden={!faceUp || undefined} className={cn(CARD_SLOT, 'perspective-distant')}>
       <motion.div
         className="relative size-full transform-3d"
         animate={pose(phase, timing, skipped)}

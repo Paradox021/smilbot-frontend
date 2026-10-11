@@ -1,5 +1,5 @@
 import { RARITIES } from '@/shared/config/rarities'
-import { getGlowKeyframes, getRevealTiming } from './reveal'
+import { getGlowKeyframes, getRevealTiming, getVibrationPattern, PACK_OPEN_MS } from './reveal'
 
 const totalMs = (type: number) => {
   const timing = getRevealTiming(type)
@@ -36,8 +36,10 @@ describe('getRevealTiming', () => {
     expect(getRevealTiming(99)).toEqual(getRevealTiming(0))
   })
 
-  it('ninguna ceremonia pasa de 3 segundos', () => {
-    for (const rarity of RARITIES) expect(totalMs(rarity.type)).toBeLessThanOrEqual(3000)
+  it('ninguna ceremonia, con la apertura del sobre, pasa de 3,5 segundos', () => {
+    for (const rarity of RARITIES) {
+      expect(totalMs(rarity.type) + PACK_OPEN_MS).toBeLessThanOrEqual(3500)
+    }
   })
 })
 
@@ -52,5 +54,16 @@ describe('getGlowKeyframes', () => {
     const peaks = [keyframes[1], keyframes[3], keyframes[5]]
     expect(peaks).toEqual([...peaks].sort())
     expect(keyframes.at(-1)).toBe(0.7)
+  })
+})
+
+describe('getVibrationPattern', () => {
+  it('solo vibra de Épica en adelante, y más cuanto más rara', () => {
+    expect(getVibrationPattern(0)).toBeNull()
+    expect(getVibrationPattern(1)).toBeNull()
+    const total = (type: number) => (getVibrationPattern(type) ?? []).reduce((a, b) => a + b, 0)
+    expect(total(2)).toBeGreaterThan(0)
+    expect(total(3)).toBeGreaterThan(total(2))
+    expect(total(4)).toBeGreaterThan(total(3))
   })
 })

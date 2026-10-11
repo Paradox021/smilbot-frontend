@@ -2,11 +2,15 @@ import { getRevealTiming } from './reveal'
 import type { PullOutcome } from './types'
 
 /**
- * `shuffling`: petición en vuelo, el dorso se baraja.
- * `anticipation`: ya se conoce la carta, el dorso brilla con el color de su rareza.
- * `revealing`: la carta gira.
+ * `idle`: el sobre en reposo.
+ * `shuffling`: petición en vuelo, el sobre tiembla.
+ * `anticipation`: ya se conoce la carta, se escapa luz de su rareza por la línea de corte.
+ * `opening`: la solapa se rasga y sale volando.
+ * `revealing`: la carta sube desde dentro del sobre y gira.
  */
-export type PullPhase = 'idle' | 'shuffling' | 'anticipation' | 'revealing' | 'result'
+export type PullPhase = 'idle' | 'shuffling' | 'anticipation' | 'opening' | 'revealing' | 'result'
+
+const ANIMATING_PHASES: readonly PullPhase[] = ['shuffling', 'anticipation', 'opening', 'revealing']
 
 export interface PullSequenceState {
   phase: PullPhase
@@ -32,7 +36,7 @@ export const initialPullSequence: PullSequenceState = {
 }
 
 export function isAnimating(phase: PullPhase): boolean {
-  return phase === 'shuffling' || phase === 'anticipation' || phase === 'revealing'
+  return ANIMATING_PHASES.includes(phase)
 }
 
 export function pullSequenceReducer(
@@ -47,15 +51,16 @@ export function pullSequenceReducer(
       const { outcome } = action
       if (state.skipped || action.reducedMotion) return { ...state, phase: 'result', outcome }
       const { anticipationMs } = getRevealTiming(outcome.result.type)
-      return { ...state, phase: anticipationMs > 0 ? 'anticipation' : 'revealing', outcome }
+      return { ...state, phase: anticipationMs > 0 ? 'anticipation' : 'opening', outcome }
     }
     case 'advance':
-      if (state.phase === 'anticipation') return { ...state, phase: 'revealing' }
+      if (state.phase === 'anticipation') return { ...state, phase: 'opening' }
+      if (state.phase === 'opening') return { ...state, phase: 'revealing' }
       if (state.phase === 'revealing') return { ...state, phase: 'result' }
       return state
     case 'skip':
       if (state.phase === 'shuffling') return { ...state, skipped: true }
-      if (state.phase === 'anticipation' || state.phase === 'revealing') {
+      if (isAnimating(state.phase)) {
         return { ...state, phase: 'result', skipped: true }
       }
       return state

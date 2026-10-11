@@ -65,12 +65,12 @@ async function renderPullPage() {
 describe('PullPage', () => {
   beforeEach(signedIn)
 
-  it('muestra el dorso, el progreso de pity y el botón con el coste', async () => {
+  it('muestra el sobre, el progreso de pity y el botón con el coste', async () => {
     await renderPullPage()
 
     expect(await openButton()).toBeEnabled()
     expect(screen.getByRole('heading', { level: 1, name: t.title })).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: 'Dorso de carta' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: t.pack })).toBeInTheDocument()
     expect(screen.getByText(t.guaranteedIn(6, '6'))).toBeInTheDocument()
   })
 
@@ -103,7 +103,9 @@ describe('PullPage', () => {
     expect(screen.getByText(t.rarityLine('Mítica', '0,5 %'))).toBeInTheDocument()
     expect(screen.getByText(t.guaranteedIn(250, '250'))).toBeInTheDocument()
     expect(
-      screen.getByText(`${t.announce(mythicByPity.name, 'Mítica')} ${t.announceNew}`),
+      screen.getByText(
+        `${t.announce(mythicByPity.name, 'Mítica')} ${t.announceNew} ${t.smilbot.pityMythic}`,
+      ),
     ).toBeInTheDocument()
     expect(screen.getByRole('button', { name: t.openAnother('100') })).toBeInTheDocument()
   })
@@ -121,7 +123,7 @@ describe('PullPage', () => {
     ).toBeInTheDocument()
   })
 
-  it('sin saltar, una carta repetida se revela sola y no lleva "Nueva"', async () => {
+  it('sin saltar, una carta repetida se revela sola y cuenta las copias', async () => {
     withPull(ownedCommon)
     await renderPullPage()
 
@@ -132,6 +134,10 @@ describe('PullPage', () => {
     ).toBeInTheDocument()
     expect(screen.queryByText(t.newBadge)).not.toBeInTheDocument()
     expect(screen.queryByText(t.pityBadge)).not.toBeInTheDocument()
+    expect(screen.getByText(t.copiesLabel('4'))).toBeInTheDocument()
+    expect(
+      screen.getByText(`${t.announce(ownedCommon.name, 'Común')} ${t.smilbot.duplicate}`),
+    ).toBeInTheDocument()
     expect(screen.getByText(t.guaranteedIn(5, '5'))).toBeInTheDocument()
   })
 

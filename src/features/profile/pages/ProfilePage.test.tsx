@@ -40,7 +40,8 @@ describe('ProfilePage', () => {
     expect(statValue(profileTexts.dailyStreak)).toBe('11 días')
     expect(statValue(profileTexts.maxDailyStreak)).toBe('15 días')
     expect(statValue(profileTexts.cardsCount)).toBe('35')
-    expect(statValue(profileTexts.memberSince)).toBe('12 de marzo de 2025')
+    expect(statValue(profileTexts.cardsOpenedCount)).toBe('30')
+    expect(screen.getByText(profileTexts.memberSince('marzo de 2025'))).toBeInTheDocument()
     expect(statValue(profileTexts.luckPercentage)).toBe('138,5 %')
     expect(statValue(profileTexts.luckDelta)).toBe('+38,5 %')
     expect(screen.getByText('Afortunado')).toBeInTheDocument()
@@ -92,7 +93,7 @@ describe('ProfilePage', () => {
     expect(await screen.findByText('Próximo daily dentro de 5 horas')).toBeInTheDocument()
     expect(screen.queryByText(profileTexts.dailyAvailable)).not.toBeInTheDocument()
     expect(screen.queryByText(/La racha se rompe/)).not.toBeInTheDocument()
-    expect(screen.queryByText(profileTexts.memberSince)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Miembro desde/)).not.toBeInTheDocument()
   })
 
   it('marca a los administradores', async () => {

@@ -1,4 +1,4 @@
-import { addCardToInventory, ownsCard } from './inventory'
+import { addCardToInventory, countCopies } from './inventory'
 import type { Inventory } from './types'
 
 const larry = { _id: 'c1', name: 'SwimmingLarry', description: 'Mítica', type: 4 }
@@ -12,14 +12,14 @@ const inventory: Inventory = {
   ],
 }
 
-describe('ownsCard', () => {
-  it('true si tiene al menos una copia', () => {
-    expect(ownsCard(inventory, 'c1')).toBe(true)
+describe('countCopies', () => {
+  it('cuenta las copias de una carta', () => {
+    expect(countCopies(inventory, 'c1')).toBe(2)
   })
 
-  it('false si no está o tiene count 0', () => {
-    expect(ownsCard(inventory, 'c2')).toBe(false)
-    expect(ownsCard(inventory, 'c3')).toBe(false)
+  it('0 si no está o tiene count 0', () => {
+    expect(countCopies(inventory, 'c2')).toBe(0)
+    expect(countCopies(inventory, 'c3')).toBe(0)
   })
 })
 

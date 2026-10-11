@@ -18,6 +18,8 @@ const seconds = (ms: number) => ms / 1000
 /** Brillo, rayos, destello, partículas y tinte del fondo. Solo `transform` y `opacity`. */
 export function RevealEffects({ phase, rarityType, timing, skipped }: RevealEffectsProps) {
   const revealed = phase === 'revealing' || phase === 'result'
+  /** Ya se ha anunciado la rareza: el brillo se mantiene mientras se rasga el sobre. */
+  const lit = phase === 'opening' || revealed
   const burst = revealed && !skipped
   const burstDelay = seconds(timing.flipMs * 0.45)
 
@@ -31,7 +33,9 @@ export function RevealEffects({ phase, rarityType, timing, skipped }: RevealEffe
         <motion.div
           className="fixed inset-0 bg-[radial-gradient(circle_at_50%_45%,var(--rarity),transparent_65%)] mix-blend-screen"
           initial={{ opacity: 0 }}
-          animate={{ opacity: phase === 'anticipation' ? 0.3 : revealed ? 0.14 : 0 }}
+          animate={{
+            opacity: phase === 'anticipation' || phase === 'opening' ? 0.3 : revealed ? 0.14 : 0,
+          }}
           transition={{ duration: seconds(phase === 'anticipation' ? timing.anticipationMs : 600) }}
         />
       )}
@@ -55,7 +59,7 @@ export function RevealEffects({ phase, rarityType, timing, skipped }: RevealEffe
           animate={
             phase === 'anticipation'
               ? { opacity: getGlowKeyframes(timing.pulses), scale: 1 }
-              : { opacity: revealed ? 0.55 : 0, scale: 1 }
+              : { opacity: lit ? 0.55 : 0, scale: 1 }
           }
           transition={{
             duration: seconds(phase === 'anticipation' ? timing.anticipationMs : 400),

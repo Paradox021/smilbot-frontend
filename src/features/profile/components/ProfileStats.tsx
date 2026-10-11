@@ -1,20 +1,21 @@
-import { useUserStats } from '@/features/stats'
+import type { UserStats } from '@/features/stats'
+import { KeyStats } from './KeyStats'
 import { LuckCard } from './LuckCard'
 import { PityCard } from './PityCard'
-import { ProfileStatsError, ProfileStatsSkeleton } from './ProfileStatsStatus'
 import { SummaryCards } from './SummaryCards'
 
-export function ProfileStats({ discordId }: { discordId: string }) {
-  const { data: stats, isPending, isError, refetch } = useUserStats(discordId)
-
-  if (isPending) return <ProfileStatsSkeleton />
-  if (isError) return <ProfileStatsError onRetry={() => void refetch()} />
-
+/** Cuerpo de la ficha: cifras clave, suerte y, debajo, el resto de stats en tarjetas sencillas. */
+export function ProfileStats({ stats }: { stats: UserStats }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <SummaryCards stats={stats} />
-      <PityCard pity={stats.pity} />
-      <LuckCard luck={stats.luck} />
-    </div>
+    <>
+      <KeyStats stats={stats} />
+      <div className="grid gap-4 md:grid-cols-2">
+        <LuckCard luck={stats.luck} />
+        <SummaryCards stats={stats} />
+        <div className="md:col-span-2">
+          <PityCard pity={stats.pity} />
+        </div>
+      </div>
+    </>
   )
 }

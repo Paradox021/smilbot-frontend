@@ -69,6 +69,20 @@ const REVEAL_BY_RARITY: Record<RarityKey, RevealTiming> = {
   },
 }
 
+/** La solapa del sobre se rasga: se suma a la ceremonia de cualquier rareza. */
+export const PACK_OPEN_MS = 400
+
+const VIBRATION_BY_RARITY: Partial<Record<RarityKey, number[]>> = {
+  epic: [40],
+  legendary: [60, 40, 90],
+  mythic: [80, 50, 80, 50, 160],
+}
+
+/** Vibración al revelar (solo Épica o mejor); `null` si no vibra. */
+export function getVibrationPattern(rarityType: number): number[] | null {
+  return VIBRATION_BY_RARITY[getRarity(rarityType)?.key ?? 'common'] ?? null
+}
+
 export function getRevealTiming(rarityType: number): RevealTiming {
   return REVEAL_BY_RARITY[getRarity(rarityType)?.key ?? 'common']
 }

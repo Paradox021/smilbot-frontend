@@ -21,11 +21,11 @@ export function formatPercent(points: number, { signed = false } = {}): string {
   return (signed ? signedPercentFormatter : percentFormatter).format(points / 100)
 }
 
-const dateFormatter = new Intl.DateTimeFormat(LOCALE, { dateStyle: 'long' })
+const monthYearFormatter = new Intl.DateTimeFormat(LOCALE, { month: 'long', year: 'numeric' })
 
-/** Fecha larga en español (`2025-03-12T12:00:00Z` → `12 de marzo de 2025`). */
-export function formatDate(value: string | Date): string {
-  return dateFormatter.format(new Date(value))
+/** Mes y año (`2025-03-12T12:00:00Z` → `marzo de 2025`). */
+export function formatMonthYear(value: string | Date): string {
+  return monthYearFormatter.format(new Date(value))
 }
 
 const relativeTimeFormatter = new Intl.RelativeTimeFormat(LOCALE, { numeric: 'auto' })

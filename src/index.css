@@ -38,6 +38,50 @@
   --radius-md: 12px;
   --radius-lg: var(--radius);
   --radius-xl: 20px;
+
+  /* Movimiento (DESIGN.md): equivalentes en CSS de shared/config/motion.ts para lo que no carga Motion. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-pop-in: pop-in 420ms var(--ease-bounce) both;
+  --animate-bump: bump 450ms var(--ease-bounce);
+  --animate-float-up: float-up 1200ms var(--ease-out-expo) forwards;
+  --animate-fade-in: fade-in 250ms var(--ease-out-expo) both;
+  --animate-flare: flare 650ms var(--ease-bounce);
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.9);
+    }
+  }
+  @keyframes bump {
+    35% {
+      transform: scale(1.14);
+    }
+  }
+  @keyframes float-up {
+    0% {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    15% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-26px);
+    }
+  }
+  @keyframes flare {
+    40% {
+      transform: scale(1.4) rotate(-8deg);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
 }
 
 :root {

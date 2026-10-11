@@ -1,16 +1,17 @@
 import { useId } from 'react'
+import { rarityStyle } from '@/features/cards'
+import { getPityProgress, type PityStats } from '@/features/stats'
+import { MYTHIC_TYPE } from '@/shared/config/rarities'
 import { formatNumber } from '@/shared/lib/format'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Progress } from '@/shared/ui/progress'
-import { getPityProgress } from '@/features/stats'
 import { profileTexts as t } from '../texts'
-import type { PityStats } from '@/features/stats'
 
 export function PityCard({ pity }: { pity: PityStats }) {
   const labelId = useId()
 
   return (
-    <Card>
+    <Card style={rarityStyle(MYTHIC_TYPE)}>
       <CardHeader>
         <CardTitle>{t.pityTitle}</CardTitle>
       </CardHeader>
@@ -27,10 +28,18 @@ export function PityCard({ pity }: { pity: PityStats }) {
               )}
             </span>
           </div>
-          <Progress value={getPityProgress(pity)} aria-labelledby={labelId} />
+          <Progress
+            value={getPityProgress(pity)}
+            aria-labelledby={labelId}
+            className="h-2.5"
+            indicatorClassName="rounded-full bg-linear-to-r from-(--rarity)/45 to-(--rarity)"
+          />
         </div>
         <p className="text-sm text-muted-foreground">
-          {t.pullsUntilGuaranteed(formatNumber(pity.pullsUntilGuaranteed))}
+          {t.pullsUntilGuaranteed(
+            pity.pullsUntilGuaranteed,
+            formatNumber(pity.pullsUntilGuaranteed),
+          )}
         </p>
         <p className="text-sm text-body">
           {t.pityMythicsCount}:{' '}
