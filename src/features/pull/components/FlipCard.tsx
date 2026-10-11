@@ -60,7 +60,11 @@ export function FlipCard({ phase, card, timing, skipped }: FlipCardProps) {
   const faceUp = phase === 'revealing' || phase === 'result'
 
   return (
-    <div aria-hidden={!faceUp || undefined} className={cn(CARD_SLOT, 'perspective-distant')}>
+    // Al girar pasa por delante del sobre, que cae: sin esto se transparentaría a través de él.
+    <div
+      aria-hidden={!faceUp || undefined}
+      className={cn(CARD_SLOT, 'perspective-distant', faceUp && 'z-20')}
+    >
       <motion.div
         className="relative size-full transform-3d"
         animate={pose(phase, timing, skipped)}

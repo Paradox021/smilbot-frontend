@@ -87,47 +87,53 @@ function flapPose(phase: PullPhase): TargetAndTransition {
   return { x: 0, y: 0, rotate: 0, opacity: 1, transition: { duration: 0 } }
 }
 
-function TearLight({ phase, timing }: { phase: PullPhase; timing: RevealTiming }) {
-  const anticipating = phase === 'anticipation'
-  const opening = phase === 'opening'
+/** Brillo de la luz interior: late con la anticipación y se queda encendido al rasgar. */
+function lightPose(phase: PullPhase, timing: RevealTiming): TargetAndTransition {
+  if (phase === 'anticipation') {
+    return {
+      opacity: getGlowKeyframes(timing.pulses),
+      transition: { duration: seconds(timing.anticipationMs), ease: 'easeInOut' },
+    }
+  }
+  if (phase === 'opening') return { opacity: 1, transition: { duration: DURATION.fast } }
+  return { opacity: 0, transition: { duration: DURATION.base } }
+}
 
+/**
+ * Luz de la rareza que se cuela por la perforación. Va dentro de cada trozo recortado (cuerpo y
+ * solapa), así que nunca se sale de la silueta del sobre.
+ */
+function SeamLight({ phase, timing }: { phase: PullPhase; timing: RevealTiming }) {
   return (
-    <>
-      <motion.div
-        aria-hidden
-        className={cn(
-          'pointer-events-none absolute -inset-x-[8%] h-8 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,white,var(--rarity)_35%,transparent)]',
-          TEAR_LINE,
-        )}
-        initial={{ opacity: 0, scaleY: 0.4 }}
-        animate={
-          anticipating
-            ? { opacity: getGlowKeyframes(timing.pulses), scaleY: 1 }
-            : opening
-              ? { opacity: [0.9, 1, 0], scaleY: [1, 2.2, 3] }
-              : { opacity: 0, scaleY: 1 }
-        }
-        transition={{
-          duration: anticipating ? seconds(timing.anticipationMs) : OPEN_S,
-          ease: 'easeInOut',
-        }}
-      />
-      {opening && (
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-[12%] bottom-[84.3%] h-[70%] origin-bottom bg-linear-to-t from-(--rarity) to-transparent mask-x-from-60%"
-          initial={{ opacity: 0, scaleY: 0.3 }}
-          animate={{ opacity: [0, 0.8, 0], scaleY: 1 }}
-          transition={{ duration: OPEN_S * 1.6, ease: 'easeOut' }}
-        />
-      )}
-    </>
+    <motion.div
+      aria-hidden
+      className={cn('pointer-events-none absolute inset-x-0 -translate-y-1/2', TEAR_LINE)}
+      initial={{ opacity: 0 }}
+      animate={lightPose(phase, timing)}
+    >
+      <div className="absolute inset-x-0 -top-3 h-6 bg-(--rarity) blur-md" />
+      <div className="absolute inset-x-[4%] -top-px h-0.5 bg-linear-to-r from-transparent via-white to-transparent" />
+    </motion.div>
   )
 }
 
-/** Sobre de Smilbot que respira, tiembla, deja escapar la luz de la rareza y se rasga. */
+/** Halo del color de la rareza alrededor del sobre: late a la vez que la ranura. */
+function PackHalo({ phase, timing }: { phase: PullPhase; timing: RevealTiming }) {
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute -inset-[2%] rounded-2xl bg-(--rarity) blur-xl"
+      initial={{ opacity: 0 }}
+      animate={lightPose(phase, timing)}
+    />
+  )
+}
+
+/** Sobre de Smilbot que respira, tiembla, se ilumina por dentro con la rareza y se rasga. */
 export function Pack({ phase, rarityType, timing, canTear, onTear }: PackProps) {
   const swipe = useSwipeToTear(canTear && phase === 'idle', onTear)
+  /** Solo las rarezas con anticipación (Rara o mejor) encienden el sobre. */
+  const light = timing && timing.pulses > 0 ? timing : null
 
   return (
     <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
@@ -140,9 +146,11 @@ export function Pack({ phase, rarityType, timing, canTear, onTear }: PackProps) 
         animate={packPose(phase, timing)}
         {...swipe}
       >
+        {light && <PackHalo phase={phase} timing={light} />}
         <div className="absolute inset-0 drop-shadow-[0_18px_30px_rgb(0_0_0/0.45)]">
           <div className="absolute inset-0" style={{ clipPath: CLIPS.body }}>
             <PackArt className="size-full" />
+            {light && <SeamLight phase={phase} timing={light} />}
           </div>
         </div>
         <motion.div
@@ -151,8 +159,8 @@ export function Pack({ phase, rarityType, timing, canTear, onTear }: PackProps) 
           animate={flapPose(phase)}
         >
           <PackArt className="size-full" />
+          {light && <SeamLight phase={phase} timing={light} />}
         </motion.div>
-        {timing && timing.pulses > 0 && <TearLight phase={phase} timing={timing} />}
       </motion.div>
     </div>
   )
