@@ -1,8 +1,9 @@
 import type { Card } from '@/features/cards'
 import type { Inventory } from './types'
 
-export function ownsCard(inventory: Inventory, cardId: string): boolean {
-  return inventory.cards.some((card) => card._id === cardId && card.count > 0)
+/** Copias de una carta en el inventario (`0` si no la tiene). */
+export function countCopies(inventory: Inventory, cardId: string): number {
+  return inventory.cards.find((card) => card._id === cardId)?.count ?? 0
 }
 
 /** Inventario con una copia más de `card` (la añade si no estaba). No muta el original. */

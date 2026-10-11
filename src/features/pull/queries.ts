@@ -1,6 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Card } from '@/features/cards'
-import { addCardToInventory, inventoryKeys, ownsCard, type Inventory } from '@/features/inventory'
+import {
+  addCardToInventory,
+  inventoryKeys,
+  countCopies,
+  type Inventory,
+} from '@/features/inventory'
 import { statsKeys } from '@/features/stats'
 import { preloadImage } from '@/shared/lib/preloadImage'
 import { pullCard } from './api'
@@ -21,7 +26,9 @@ export function usePullMutation(discordId: string) {
       const result = await pullCard(discordId)
       // Mientras se baraja: así la cara se pinta ya con su tamaño final al girar.
       await preloadImage(result.imageUrl)
-      return { result, isNew: before ? !ownsCard(before, result._id) : null }
+      if (!before) return { result, isNew: null, copies: null }
+      const copies = countCopies(before, result._id) + 1
+      return { result, isNew: copies === 1, copies }
     },
     onSuccess: ({ result }) => {
       queryClient.setQueryData<Inventory>(

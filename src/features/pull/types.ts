@@ -16,4 +16,6 @@ export interface PullOutcome {
   result: PullResult
   /** Primera copia de la carta; `null` si no se conocía el inventario antes de tirar. */
   isNew: boolean | null
+  /** Copias de la carta tras esta tirada; `null` si no se conocía el inventario. */
+  copies: number | null
 }

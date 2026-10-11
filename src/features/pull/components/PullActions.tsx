@@ -26,7 +26,8 @@ export function PullActions({ phase, balance, errorText, onOpen }: PullActionsPr
   const shortfall = Math.max(0, PULL_COST - balance)
 
   return (
-    <div className="flex w-full flex-col items-center gap-3">
+    // En móvil, la acción queda fija en la zona del pulgar, justo encima de la barra inferior.
+    <div className="sticky bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-30 flex w-full flex-col items-center gap-3 bg-linear-to-t from-background from-60% to-transparent pt-6 pb-2 md:static md:bg-none md:p-0">
       <Button
         size="lg"
         className="w-full max-w-xs"
