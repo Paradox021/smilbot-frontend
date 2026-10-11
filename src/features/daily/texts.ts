@@ -1,11 +1,11 @@
 export const dailyTexts = {
   title: 'Recompensa diaria',
-  available: (amount: string) => `Ya puedes reclamar tus ${amount} monedas de hoy.`,
+  coins: 'monedas',
   keepStreak: (days: string) => `Reclámala para llevar tu racha a ${days} días.`,
   streakAtRisk: (days: string, when: string) => `Tu racha de ${days} días caduca ${when}.`,
-  claim: (amount: string) => `Reclamar ${amount} monedas`,
+  claim: 'Reclamar',
   claiming: 'Reclamando…',
-  nextIn: 'Siguiente recompensa en',
+  nextIn: 'Próxima recompensa en',
 
   reward: (amount: string) => `+${amount} monedas`,
   newRecord: (days: string) => `Nuevo récord: ${days} días seguidos.`,

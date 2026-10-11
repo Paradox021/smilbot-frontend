@@ -55,7 +55,7 @@ function withClaim(response: typeof claimResponse, afterClaim: UserStats) {
   return calls
 }
 
-const claimButton = () => screen.findByRole('button', { name: dailyTexts.claim('100') })
+const claimButton = () => screen.findByRole('button', { name: dailyTexts.claim })
 const headerBalance = () => screen.getByText('Saldo:', { exact: false }).parentElement
 
 describe('HomePage', () => {
@@ -67,9 +67,23 @@ describe('HomePage', () => {
     expect(
       await screen.findByRole('heading', { name: homeTexts.greeting('Gamer123') }),
     ).toBeInTheDocument()
-    expect(await screen.findByText(homeTexts.streakDays('11'))).toBeInTheDocument()
-    expect(screen.getByText(homeTexts.pullsUntilGuaranteed('6'))).toBeInTheDocument()
+    expect(await screen.findByText(homeTexts.streakDays(11, '11'))).toBeInTheDocument()
+    expect(screen.getByText(homeTexts.streakWeek('2'))).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: homeTexts.streakPaws(4) })).toBeInTheDocument()
+    expect(screen.getByText(homeTexts.pullsUntilGuaranteed(6, '6'))).toBeInTheDocument()
     expect(headerBalance()).toHaveTextContent('1.650')
+  })
+
+  it('Smilbot avisa de lo más importante', async () => {
+    signedIn()
+    withStats(availableStats)
+    const { unmount } = renderApp('/inicio')
+    expect(await screen.findByText(homeTexts.smilbot.dailyReady('100'))).toBeInTheDocument()
+    unmount()
+
+    withStats(cooldownStats)
+    renderApp('/inicio')
+    expect(await screen.findByText(homeTexts.smilbot.pityClose(6, '6'))).toBeInTheDocument()
   })
 
   it('en cooldown muestra la cuenta atrás y no deja reclamar', async () => {
@@ -79,22 +93,29 @@ describe('HomePage', () => {
 
     expect(await screen.findByText(dailyTexts.nextIn)).toBeInTheDocument()
     expect(screen.getByRole('timer')).toHaveTextContent(/^0[45]:\d{2}:\d{2}$/)
-    expect(screen.queryByRole('button', { name: dailyTexts.claim('100') })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: dailyTexts.claim })).not.toBeInTheDocument()
   })
 
   it('la acción principal es el daily si está disponible y, si no, abrir un sobre', async () => {
-    const openPack = () => screen.findByRole('link', { name: homeTexts.openPack('100') })
     signedIn()
     withStats(availableStats)
     const { unmount } = renderApp('/inicio')
 
     expect(await claimButton()).toHaveAttribute('data-variant', 'default')
-    expect(await openPack()).toHaveAttribute('data-variant', 'secondary')
+    expect(
+      await screen.findByRole('link', { name: homeTexts.openPackSecondary('100') }),
+    ).toHaveAttribute('data-variant', 'secondary')
     unmount()
 
     withStats(cooldownStats)
     renderApp('/inicio')
-    expect(await openPack()).toHaveAttribute('data-variant', 'default')
+    expect(await screen.findByRole('link', { name: homeTexts.openPack('100') })).toHaveAttribute(
+      'data-variant',
+      'default',
+    )
+    expect(
+      screen.queryByRole('link', { name: homeTexts.openPackSecondary('100') }),
+    ).not.toBeInTheDocument()
   })
 
   it('reclama el daily, muestra el resultado y refresca las stats', async () => {
@@ -142,6 +163,9 @@ describe('HomePage', () => {
 
     expect(
       await screen.findByText(dailyTexts.streakAtRisk('11', 'dentro de 3 horas')),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(homeTexts.smilbot.streakAtRisk('11', 'dentro de 3 horas')),
     ).toBeInTheDocument()
   })
 
