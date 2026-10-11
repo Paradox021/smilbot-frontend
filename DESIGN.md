@@ -102,7 +102,8 @@ nunca se comunica solo con color: siempre va su nombre.
   de marcos, brillos ni insignias de carta en `primary`. La insignia "Nueva" va en naranja pero
   **fuera** del marco.
 - **Sin degradados de marca ni neón.** El único brillo cálido es el halo de la mascota; los brillos
-  de color son los de las rarezas en la tirada.
+  de color son los de las rarezas en la tirada. **Excepción: el sobre** (ver "El sobre"), que es un
+  objeto de marca con brillo de papel metalizado.
 
 ## Tipografía
 
@@ -138,6 +139,34 @@ nunca se comunica solo con color: siempre va su nombre.
 - **Más aire, menos cajas:** agrupa con espacio y títulos antes que anidando tarjetas.
 - **Animación** solo con `transform` y `opacity`, y siempre respetando `prefers-reduced-motion`.
 
+## Movimiento
+
+Todo se mueve igual. Los tokens viven en `shared/config/motion.ts` (para Motion) y sus equivalentes
+CSS en `src/index.css` (para lo que vive en el bundle principal, como la cabecera).
+
+| Token | Valor | Uso |
+| :--- | :--- | :--- |
+| `DURATION.fast` | 150 ms | Hover y pulsado |
+| `DURATION.base` | 250 ms | Entradas de elementos y cambios de estado |
+| `DURATION.slow` | 400 ms | Apertura del sobre y transiciones grandes |
+| `EASE_OUT` / `ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | Entradas: arranca rápido y frena |
+| `SPRING.snappy` | Muelle rígido, sin rebote | Botones, pestañas |
+| `SPRING.bouncy` / `ease-bounce` | Muelle con un rebote | Bocadillo de Smilbot, insignias, huellas |
+
+Animaciones CSS listas: `animate-pop-in` (bocadillo, huella nueva), `animate-bump` (moneda del
+saldo), `animate-flare` (llama de la racha), `animate-float-up` ("+100" / "−100") y `animate-fade-in`.
+
+- **Sin bucles infinitos**, salvo la respiración del sobre en reposo (y el giro lento de los rayos
+  y el brillo holográfico de una carta ya revelada).
+- Con `prefers-reduced-motion`, todo se quita o se cambia por un fundido (`motion-safe:` en CSS,
+  `MotionConfig reducedMotion="user"` en las páginas con Motion).
+- **Motion solo en páginas diferidas.** La cabecera usa CSS, `requestAnimationFrame` (contador del
+  saldo) o Web Animations (monedas que vuelan).
+- **Todo responde:** los botones se hunden al pulsar (`scale` 0,97); el daily lanza monedas a la
+  píldora del saldo, que salta al recibirlas; abrir un sobre deja un "−100" que flota; la huella
+  nueva de la racha entra con rebote y la llama se aviva; "Nueva" entra con rebote y confeti de
+  huellas.
+
 ## La mascota
 
 Smilbot (el gato naranja) aparece donde la app tiene que tener voz, no como decoración:
@@ -145,7 +174,9 @@ Smilbot (el gato naranja) aparece donde la app tiene que tener voz, no como deco
 | Dónde | Cómo |
 | :--- | :--- |
 | Login | Grande (192 px en móvil, 280 px en escritorio), con halo y motas de luz fijas |
-| 404, errores y estados vacíos | Mediana (unos 144 px), con halo y un texto cercano |
+| Inicio y tirada (guía) | Pequeña (48-56 px) con bocadillo: `SmilbotSays` |
+| 404, errores de pantalla y estados vacíos | Mediana (112-144 px), con halo y un texto cercano |
+| Comprobando la sesión | 96 px con halo: "Smilbot se está despertando…" |
 | Logo de la cabecera | 32 px, sin halo |
 | Favicon | `public/favicon-32.png` y `public/apple-touch-icon.png` |
 
@@ -153,21 +184,53 @@ Smilbot (el gato naranja) aparece donde la app tiene que tener voz, no como deco
   orejas dentro. Recibe el tamaño por `className` y el ancho mostrado por `sizes` para elegir
   fichero (`src/assets/mascot/smilbot-128|320|640.webp`).
 - **Nunca** a más de 280 px, a sangre ni en rectángulo: la foto es de baja resolución (escalada 4×).
-- No aparece en las pantallas de datos (Inicio, Colección, Rankings) salvo en sus estados vacíos.
+- **Como guía, solo en Inicio y en la tirada.** En Perfil, Colección y Rankings aparece solo en sus
+  estados vacíos y errores.
+
+### Smilbot habla (`SmilbotSays`)
+
+Mascota pequeña y un bocadillo en `secondary` con la esquina que apunta a Smilbot. **Un solo
+mensaje cada vez**, el más importante:
+
+- **Inicio** (de más a menos prioridad): racha que caduca en menos de 6 h, daily disponible,
+  mítica garantizada en 10 sobres o menos, sin cartas todavía y, si no, un saludo que cambia cada
+  día. La lógica está en `features/home/smilbotMessage.ts`.
+- **Tirada:** reacciona solo a Épica o mejor ("¡¿Una mítica?! ¡Miau!") y, sin emoción, a las
+  repetidas ("Esta ya la tenías"). Ver `features/pull/smilbotReaction.ts`.
+- El bocadillo entra con `animate-pop-in` cada vez que cambia el mensaje (`messageKey`). Nada en
+  bucle.
+- Es texto normal para el lector de pantalla. La reacción de la tirada ya va en el anuncio del
+  resultado, así que allí el bocadillo es solo visual.
+
+## El sobre
+
+`PackArt` (`features/cards`): SVG dibujado con los tokens, proporción 5:7 y algo más ancho que la
+carta para que esta "quepa" dentro. Es un objeto de marca, no una carta, así que **puede ser
+naranja**: degradado naranja con brillo de papel metalizado, bordes dentados, la huella y "Smilbot"
+en Nunito, y una línea de corte discontinua arriba.
+
+- En la tirada se pinta dos veces recortado por la línea de corte (`packTearClips`): la solapa sale
+  volando y el cuerpo cae. Por la línea de corte se escapa la luz del color de la rareza.
+- En Inicio, un montón de tres sobres decora la tarjeta "Abrir un sobre".
+- Con una ilustración de Smilbot, el sobre podrá llevarla en lugar de la huella.
 
 ## Componentes
 
 | Componente | Definición |
 | :--- | :--- |
-| Botón principal (`Button`) | Píldora naranja con texto oscuro. **Uno por pantalla como máximo** (p. ej. en Inicio, el daily si está disponible; si no, "Abrir un sobre"). |
+| Botón principal (`Button`) | Píldora naranja con texto oscuro. **Uno por pantalla como máximo** (en Inicio, el de la tarjeta de hoy: "Reclamar" si el daily está disponible; si no, "Abrir sobre"). Se hunde al pulsar. |
 | Botón secundario (`variant="secondary"`) | Píldora en `secondary` con texto crema y borde sutil. |
 | Botón fantasma (`variant="ghost"`) | Sin fondo, texto secundario; hover en `muted`. |
-| Tarjeta de interfaz (`Card`) | `bg-card`, `rounded-lg`, sin sombra ni borde. La destacada de la pantalla (daily) va en `bg-secondary`. |
+| Tarjeta de interfaz (`Card`) | `bg-card`, `rounded-lg`, sin sombra ni borde. La destacada de la pantalla (la tarjeta de hoy en Inicio) va en `bg-secondary`. |
 | Carta coleccionable (`CardFront`, `CardBack`) | Marco de 1 px del color de su rareza, imagen entera a su proporción, nombre debajo, `rounded-md`, fondo `card`. El dorso lleva una huella. |
 | Píldora del saldo | `secondary`, moneda en naranja y cifra en Nunito. |
 | Insignias (`Badge`) | Píldora. "Nueva" en naranja (fuera de la carta); las demás en `secondary`. |
 | Navegación | Escritorio: pestañas en píldora, la activa en `secondary`. Móvil: barra inferior en `card`, icono activo en naranja. |
-| Progreso | Pista `muted` y relleno crema (o el color de la rareza si mide rarezas). |
+| Progreso | Pista `muted` y relleno crema, o el color de la rareza si mide rarezas: la mítica garantizada se llena hacia el color mítico (`indicatorClassName`). |
+| Racha | Tira de 7 huellas: rellenas en crema, la de hoy con anillo; por reclamar, discontinua (ámbar si la racha está en peligro). Más de 7 días: "Semana N". |
+| Desglose por rareza | Barra apilada con los colores de rareza y leyenda con nombre y cantidad. |
+| Error de pantalla (`ErrorState`) | Smilbot mediano con halo, el mensaje y "Reintentar" (secundario). |
+| Cifras clave (Perfil) | Fila de tres tarjetas: icono, cifra en Nunito y etiqueta. |
 | Foco | `ring-ring` (naranja al 60 %) en todos los controles. |
 
 ## Tono de los textos
