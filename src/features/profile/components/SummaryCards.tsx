@@ -1,6 +1,6 @@
-import { formatDate, formatNumber, formatRelativeTime } from '@/shared/lib/format'
-import { profileTexts as t } from '../texts'
 import type { UserStats } from '@/features/stats'
+import { formatNumber, formatRelativeTime } from '@/shared/lib/format'
+import { profileTexts as t } from '../texts'
 import { StatsCard } from './StatsCard'
 
 function streakNotes(stats: UserStats, now: Date): string[] {
@@ -16,13 +16,6 @@ function streakNotes(stats: UserStats, now: Date): string[] {
 
 export function SummaryCards({ stats }: { stats: UserStats }) {
   const now = new Date()
-  const collectionStats: { label: string; value: string }[] = [
-    { label: t.cardsCount, value: formatNumber(stats.cardsCount) },
-    { label: t.cardsOpenedCount, value: formatNumber(stats.cardsOpenedCount) },
-  ]
-  if (stats.createdAt) {
-    collectionStats.push({ label: t.memberSince, value: formatDate(stats.createdAt) })
-  }
 
   return (
     <>
@@ -39,12 +32,10 @@ export function SummaryCards({ stats }: { stats: UserStats }) {
         title={t.streakTitle}
         stats={[
           { label: t.dailyStreak, value: t.days(formatNumber(stats.dailyStreak)) },
-          { label: t.maxDailyStreak, value: t.days(formatNumber(stats.maxDailyStreak)) },
           { label: t.totalDailiesClaimed, value: formatNumber(stats.totalDailiesClaimed) },
         ]}
         notes={streakNotes(stats, now)}
       />
-      <StatsCard title={t.collectionTitle} stats={collectionStats} />
     </>
   )
 }

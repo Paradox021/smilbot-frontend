@@ -19,10 +19,10 @@ export const profileTexts = {
   nextDaily: (when: string) => `Próximo daily ${when}`,
   streakExpires: (when: string) => `La racha se rompe ${when}`,
 
-  collectionTitle: 'Colección',
-  cardsCount: 'Cartas en inventario',
+  cardsCount: 'Cartas',
   cardsOpenedCount: 'Sobres abiertos',
-  memberSince: 'Miembro desde',
+  memberSince: (date: string) => `Miembro desde ${date}`,
+  luckTier: 'Nivel de suerte',
 
   luckTitle: 'Suerte en el gacha',
   luckEmpty: 'Aún no has abierto ningún sobre. Tu suerte aparecerá aquí cuando lo hagas.',
@@ -37,7 +37,10 @@ export const profileTexts = {
   pityTitle: 'Pity',
   pityProgressLabel: 'Progreso hacia la mítica garantizada',
   pityProgress: (current: string, threshold: string) => `${current} / ${threshold} tiradas`,
-  pullsUntilGuaranteed: (count: string) => `Mítica garantizada en ${count} tiradas`,
+  pullsUntilGuaranteed: (count: number, formatted: string) =>
+    count === 1
+      ? 'Mítica garantizada en la próxima tirada'
+      : `Mítica garantizada en ${formatted} tiradas`,
   pityMythicsCount: 'Míticas obtenidas por pity',
 
   coins: (amount: string) => `${amount} monedas`,

@@ -3,14 +3,13 @@ import { Link } from 'react-router'
 import { rarityStyle } from '@/features/cards'
 import { getPityProgress, type PityStats } from '@/features/stats'
 import { PULL_COST } from '@/shared/config/economy'
+import { MYTHIC_TYPE } from '@/shared/config/rarities'
 import { ROUTES } from '@/shared/config/routes'
 import { formatNumber } from '@/shared/lib/format'
 import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Progress } from '@/shared/ui/progress'
 import { homeTexts as t } from '../texts'
-
-const MYTHIC = 4
 
 interface GuaranteeCardProps {
   pity: PityStats
@@ -24,7 +23,7 @@ export function GuaranteeCard({ pity, showPackLink }: GuaranteeCardProps) {
   const remaining = pity.pullsUntilGuaranteed
 
   return (
-    <Card style={rarityStyle(MYTHIC)}>
+    <Card style={rarityStyle(MYTHIC_TYPE)}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <span aria-hidden className="size-2.5 rounded-full bg-(--rarity)" />

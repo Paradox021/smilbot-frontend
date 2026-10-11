@@ -1,6 +1,6 @@
 import {
   formatCountdown,
-  formatDate,
+  formatMonthYear,
   formatNumber,
   formatPercent,
   formatRelativeTime,
@@ -24,7 +24,7 @@ describe('format', () => {
   })
 
   it('formatea fechas largas en español', () => {
-    expect(formatDate('2025-03-12T12:00:00.000Z')).toBe('12 de marzo de 2025')
+    expect(formatMonthYear('2025-03-12T12:00:00.000Z')).toBe('marzo de 2025')
   })
 
   it('formatea tiempo relativo con la unidad más grande que cabe', () => {
