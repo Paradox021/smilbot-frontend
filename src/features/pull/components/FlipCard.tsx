@@ -15,6 +15,7 @@ interface FlipCardProps {
 }
 
 const FLIP_EASE = [0.65, 0, 0.35, 1] as const
+const FLIP_DELAY_SHARE = 0.2
 
 function pose(
   phase: PullPhase,
@@ -45,7 +46,12 @@ function pose(
     transition: animate
       ? {
           y: { duration: (timing.flipMs / 1000) * 0.8, ease: EASE_OUT },
-          rotateY: { duration: timing.flipMs / 1000, ease: FLIP_EASE },
+          // Gira cuando el sobre ya ha caído casi del todo, y termina a la vez que la fase.
+          rotateY: {
+            delay: (timing.flipMs / 1000) * FLIP_DELAY_SHARE,
+            duration: (timing.flipMs / 1000) * (1 - FLIP_DELAY_SHARE),
+            ease: FLIP_EASE,
+          },
         }
       : { duration: 0 },
   }
