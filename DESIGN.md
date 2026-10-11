@@ -213,8 +213,8 @@ en Nunito, y una línea de corte discontinua arriba.
   volando y el cuerpo cae.
 - **La luz de la rareza sale del propio sobre**, nunca flota encima: un halo que lo rodea y una
   ranura que brilla por la perforación (recortados por la silueta, laten con la anticipación). Al
-  rasgarlo, un haz corto sale por la boca y la carta sube a través de él; al girar pasa por delante
-  del sobre, que cae. Los brillos del resultado se ajustan al ancho del escenario para no cortarse.
+  rasgarlo, un haz corto sale por la boca y la carta asoma a través de él; después el sobre cae y se
+  pierde por el borde inferior, y la carta gira cuando ya está al descubierto (nunca se superponen). Los brillos del resultado se ajustan al ancho del escenario para no cortarse.
 - En Inicio, un montón de tres sobres decora la tarjeta "Abrir un sobre".
 - Con una ilustración de Smilbot, el sobre podrá llevarla en lugar de la huella.
 

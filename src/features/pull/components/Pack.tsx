@@ -23,6 +23,11 @@ const OPEN_S = PACK_OPEN_MS / 1000
 const TEAR_LINE = 'top-[15.7%]'
 
 const seconds = (ms: number) => ms / 1000
+const SHAKE = { duration: 0.45, ease: 'easeInOut', repeat: Infinity } as const
+/** Parte del giro que tarda el sobre en caer; la carta empieza a girar cuando ya casi no está. */
+const DROP_SHARE = 0.45
+/** Recorta solo por abajo: el sobre desaparece por el borde y la solapa puede volar por encima. */
+const CLIP_BOTTOM = 'inset(-100vh -100vw 0 -100vw)'
 
 function packPose(phase: PullPhase, timing: RevealTiming | null): TargetAndTransition {
   const rest = { x: 0, rotate: 0, scale: 1, opacity: 1 }
@@ -43,7 +48,12 @@ function packPose(phase: PullPhase, timing: RevealTiming | null): TargetAndTrans
         y: 0,
         rotate: [0, -3, 3, -2, 2, 0],
         x: [0, -3, 3, -2, 2, 0],
-        transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity },
+        // El bucle solo para el temblor: si alcanzara a la opacidad, el sobre recién entrado parpadearía.
+        transition: {
+          rotate: SHAKE,
+          x: SHAKE,
+          default: { duration: DURATION.base },
+        },
       }
     case 'anticipation': {
       const beats = Array.from({ length: timing?.pulses ?? 0 }, () => [1.04, 1]).flat()
@@ -60,14 +70,19 @@ function packPose(phase: PullPhase, timing: RevealTiming | null): TargetAndTrans
     case 'opening':
       return { ...rest, y: [0, 5, 0], transition: { duration: OPEN_S, ease: EASE_OUT } }
     case 'revealing':
+      // Cae y se pierde por el borde inferior del escenario, dejando la carta al descubierto.
       return {
         ...rest,
-        y: 110,
-        opacity: 0,
-        transition: { duration: seconds((timing?.flipMs ?? 600) * 0.55), ease: 'easeIn' },
+        y: '105%',
+        opacity: [1, 1, 0],
+        transition: {
+          duration: seconds((timing?.flipMs ?? 600) * DROP_SHARE),
+          ease: 'easeIn',
+          opacity: { times: [0, 0.75, 1] },
+        },
       }
     case 'result':
-      return { ...rest, y: 110, opacity: 0, transition: { duration: 0 } }
+      return { ...rest, y: '105%', opacity: 0, transition: { duration: 0 } }
   }
 }
 
@@ -136,7 +151,10 @@ export function Pack({ phase, rarityType, timing, canTear, onTear }: PackProps) 
   const light = timing && timing.pulses > 0 ? timing : null
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+    <div
+      className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
+      style={{ clipPath: CLIP_BOTTOM }}
+    >
       <motion.div
         role="img"
         aria-label={t.pack}
