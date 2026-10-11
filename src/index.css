@@ -46,6 +46,7 @@
   --animate-bump: bump 450ms var(--ease-bounce);
   --animate-float-up: float-up 1200ms var(--ease-out-expo) forwards;
   --animate-fade-in: fade-in 250ms var(--ease-out-expo) both;
+  --animate-flare: flare 650ms var(--ease-bounce);
 
   @keyframes pop-in {
     from {
@@ -69,6 +70,11 @@
     100% {
       opacity: 0;
       transform: translateY(-26px);
+    }
+  }
+  @keyframes flare {
+    40% {
+      transform: scale(1.4) rotate(-8deg);
     }
   }
   @keyframes fade-in {

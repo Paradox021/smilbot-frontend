@@ -1,4 +1,4 @@
-import { Button } from '@/shared/ui/button'
+import { ErrorState } from '@/shared/ui/error-state'
 import { Skeleton } from '@/shared/ui/skeleton'
 import { pullTexts as t } from '../texts'
 
@@ -12,12 +12,5 @@ export function PullSkeleton() {
 }
 
 export function PullError({ onRetry }: { onRetry: () => void }) {
-  return (
-    <div role="alert" className="flex flex-col items-center gap-3 py-12 text-center">
-      <p className="text-body">{t.loadError}</p>
-      <Button variant="secondary" onClick={onRetry}>
-        {t.retry}
-      </Button>
-    </div>
-  )
+  return <ErrorState message={t.loadError} retryLabel={t.retry} onRetry={onRetry} />
 }

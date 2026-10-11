@@ -8,6 +8,8 @@ interface StreakPawsProps {
   /** Hoy aún no se ha reclamado. */
   todayPending: boolean
   atRisk: boolean
+  /** Sube al crecer la racha: la última huella rellena entra con un rebote. */
+  celebrate: number
 }
 
 function pawClass(index: number, { week, todayPending, atRisk }: StreakPawsProps): string {
@@ -37,10 +39,13 @@ export function StreakPaws(props: StreakPawsProps) {
     >
       {Array.from({ length: STREAK_WEEK_DAYS }, (_, index) => (
         <span
-          key={index}
+          key={index === props.week.filled - 1 ? `paw-${index}-${props.celebrate}` : `paw-${index}`}
           className={cn(
             'flex aspect-square items-center justify-center rounded-full',
             pawClass(index, props),
+            props.celebrate > 0 &&
+              index === props.week.filled - 1 &&
+              'motion-safe:animate-[pop-in_520ms_var(--ease-bounce)_both]',
           )}
         >
           <PawPrint aria-hidden className="size-[45%]" />

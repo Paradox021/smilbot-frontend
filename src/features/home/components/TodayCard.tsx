@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useId, useRef } from 'react'
 import {
   DailyReward,
   dailyTexts,
@@ -6,6 +6,8 @@ import {
   useClaimDailyMutation,
   type DailyStatus,
 } from '@/features/daily'
+import { DAILY_REWARD } from '@/shared/config/economy'
+import { emitBalanceFx } from '@/shared/lib/balanceFx'
 import { homeTexts as t } from '../texts'
 import { OpenPackPanel } from './OpenPackPanel'
 
@@ -19,6 +21,15 @@ interface TodayCardProps {
 export function TodayCard({ discordId, daily, now }: TodayCardProps) {
   const titleId = useId()
   const claim = useClaimDailyMutation(discordId)
+  const claimButtonRef = useRef<HTMLButtonElement>(null)
+
+  const claimDaily = () => {
+    // Se mide al pulsar: cuando llega la respuesta, el botón ya no está.
+    const from = claimButtonRef.current?.getBoundingClientRect()
+    claim.mutate(undefined, {
+      onSuccess: () => emitBalanceFx({ kind: 'gain', amount: DAILY_REWARD, from }),
+    })
+  }
 
   return (
     <section
@@ -33,7 +44,8 @@ export function TodayCard({ discordId, daily, now }: TodayCardProps) {
           status={daily}
           now={now}
           pending={claim.isPending}
-          onClaim={() => claim.mutate()}
+          onClaim={claimDaily}
+          buttonRef={claimButtonRef}
         />
       ) : (
         <OpenPackPanel availableAt={daily.availableAt} now={now} claimResult={claim.data} />

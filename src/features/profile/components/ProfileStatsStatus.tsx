@@ -1,4 +1,4 @@
-import { Button } from '@/shared/ui/button'
+import { ErrorState } from '@/shared/ui/error-state'
 import { Skeleton } from '@/shared/ui/skeleton'
 import { profileTexts } from '../texts'
 
@@ -14,11 +14,10 @@ export function ProfileStatsSkeleton() {
 
 export function ProfileStatsError({ onRetry }: { onRetry: () => void }) {
   return (
-    <div role="alert" className="flex flex-col items-center gap-3 py-12 text-center">
-      <p className="text-body">{profileTexts.statsError}</p>
-      <Button variant="secondary" onClick={onRetry}>
-        {profileTexts.retry}
-      </Button>
-    </div>
+    <ErrorState
+      message={profileTexts.statsError}
+      retryLabel={profileTexts.retry}
+      onRetry={onRetry}
+    />
   )
 }

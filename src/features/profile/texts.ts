@@ -2,7 +2,7 @@ export const profileTexts = {
   admin: 'Admin',
   discordId: 'ID de Discord',
   loadingStats: 'Cargando estadísticas…',
-  statsError: 'No se pudieron cargar tus estadísticas.',
+  statsError: 'Smilbot no ha podido cargar tus estadísticas.',
   retry: 'Reintentar',
 
   economyTitle: 'Economía',

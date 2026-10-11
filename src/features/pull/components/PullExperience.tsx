@@ -4,6 +4,7 @@ import { getRarityName } from '@/features/cards'
 import type { UserStats } from '@/features/stats'
 import { formatNumber } from '@/shared/lib/format'
 import { PULL_COST } from '@/shared/config/economy'
+import { emitBalanceFx } from '@/shared/lib/balanceFx'
 import { useRevealVibration } from '../hooks/useRevealVibration'
 import { usePullSequence } from '../hooks/usePullSequence'
 import { getPullErrorText } from '../pullError'
@@ -43,7 +44,10 @@ export function PullExperience({ stats }: { stats: UserStats }) {
   const open = () => {
     start()
     pull.mutate(undefined, {
-      onSuccess: (resolved) => resolve(resolved, reducedMotion),
+      onSuccess: (resolved) => {
+        emitBalanceFx({ kind: 'spend', amount: PULL_COST })
+        resolve(resolved, reducedMotion)
+      },
       onError: fail,
     })
   }

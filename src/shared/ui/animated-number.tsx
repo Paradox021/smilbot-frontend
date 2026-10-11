@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
+import { prefersReducedMotion } from '@/shared/lib/motion'
 
 interface AnimatedNumberProps {
   value: number
@@ -11,10 +12,6 @@ const DURATION_MS = 800
 
 /** Curva `cubic-bezier(0.16, 1, 0.3, 1)` aproximada: arranca rápido y frena al final. */
 const easeOutExpo = (t: number) => (t >= 1 ? 1 : 1 - 2 ** (-10 * t))
-
-function prefersReducedMotion(): boolean {
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
-}
 
 /**
  * Número que cuenta hasta su nuevo valor cuando cambia (p. ej. el saldo tras reclamar el daily).

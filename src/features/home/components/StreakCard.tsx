@@ -1,6 +1,8 @@
+import { cn } from 'cn'
 import { Flame } from 'lucide-react'
 import type { DailyStatus } from '@/features/daily'
 import type { UserStats } from '@/features/stats'
+import { useBumpKey } from '@/shared/hooks/useBumpKey'
 import { formatNumber } from '@/shared/lib/format'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { getStreakWeek } from '../streakWeek'
@@ -16,6 +18,8 @@ export function StreakCard({ stats, daily }: StreakCardProps) {
   const streak = stats.dailyStreak
   const todayPending = daily.kind === 'available'
   const week = getStreakWeek(streak, !todayPending)
+  // Al reclamar: la huella nueva se rellena con un rebote y la llama se aviva.
+  const bumpKey = useBumpKey(streak)
 
   return (
     <Card>
@@ -30,7 +34,14 @@ export function StreakCard({ stats, daily }: StreakCardProps) {
       <CardContent className="flex flex-col gap-4">
         {streak > 0 ? (
           <p className="flex items-center gap-2 font-heading text-3xl font-extrabold tabular-nums">
-            <Flame aria-hidden className="size-7 fill-warning/25 text-warning" />
+            <Flame
+              key={bumpKey}
+              aria-hidden
+              className={cn(
+                'size-7 fill-warning/25 text-warning',
+                bumpKey > 0 && 'motion-safe:animate-flare',
+              )}
+            />
             {t.streakDays(streak, formatNumber(streak))}
           </p>
         ) : (
@@ -39,6 +50,7 @@ export function StreakCard({ stats, daily }: StreakCardProps) {
         <StreakPaws
           week={week}
           todayPending={todayPending}
+          celebrate={bumpKey}
           atRisk={daily.kind === 'available' && daily.streakAtRisk}
         />
         <p className="text-sm text-muted-foreground">

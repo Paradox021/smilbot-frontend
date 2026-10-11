@@ -35,6 +35,6 @@ export const pullTexts = {
   pullError: 'No se pudo abrir el sobre. Inténtalo de nuevo.',
 
   loading: 'Cargando…',
-  loadError: 'No se pudo cargar tu saldo.',
+  loadError: 'Smilbot no ha podido cargar tu saldo.',
   retry: 'Reintentar',
 } as const

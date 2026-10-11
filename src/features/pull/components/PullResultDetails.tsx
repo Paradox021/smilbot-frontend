@@ -7,6 +7,7 @@ import { SmilbotSays } from '@/shared/ui/smilbot-says'
 import { getSmilbotReaction } from '../smilbotReaction'
 import { pullTexts as t } from '../texts'
 import type { PullOutcome } from '../types'
+import { NewBadge } from './NewBadge'
 
 function ResultBadges({ outcome }: { outcome: PullOutcome }) {
   const { result, isNew, copies } = outcome
@@ -15,7 +16,7 @@ function ResultBadges({ outcome }: { outcome: PullOutcome }) {
 
   return (
     <div className="flex flex-wrap justify-center gap-2">
-      {isNew && <Badge>{t.newBadge}</Badge>}
+      {isNew && <NewBadge />}
       {duplicate && (
         <Badge variant="secondary" className="tabular-nums">
           <span aria-hidden>{t.copiesBadge(formatNumber(copies))}</span>
